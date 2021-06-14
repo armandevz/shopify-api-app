@@ -1,8 +1,7 @@
-const shopifyClient = require('../ports/shopify/client');
 const logger = require('signale');
-const argv = require('yargs').argv;
+const { argv } = require('yargs');
 const schedule = require('node-schedule');
-
+const shopifyClient = require('../ports/shopify/client');
 
 const createVariant = async (product_id, data) => {
   const url = `products/${product_id}/variants.json`;
@@ -16,7 +15,6 @@ const createVariant = async (product_id, data) => {
   return variant;
 };
 
-
 const getVariants = async (product_id) => {
   const url = `products/${product_id}/variants.json`;
   const result = await shopifyClient.get(url, { params: {} }).catch((error) => {
@@ -26,8 +24,6 @@ const getVariants = async (product_id) => {
     logger.error(error.response.config.url);
     logger.error(error.response.config.data);
     logger.error(error);
-    console.log(error);
-    console.log(env);
     return false;
   });
   return result;
@@ -51,12 +47,12 @@ const main = async () => {
     process.exit(1);
   }
 
-  const product_id = argv.product_id;
+  const { product_id } = argv;
 
   if (argv.create) {
-    const option1 = argv.option1;
-    const price = argv.price;
-    const sku = argv.sku;
+    const { option1 } = argv;
+    const { price } = argv;
+    const { sku } = argv;
 
     await createVariant(product_id, { variant: { option1, price, sku } });
   }
@@ -66,15 +62,15 @@ const main = async () => {
   }
 
   if (argv.delete) {
-    const variant_id = argv.variant_id;
+    const { variant_id } = argv;
 
     await deleteVariant(product_id, variant_id);
   }
 
   if (argv.updateLatestVariant) {
-    const option1 = argv.option1;
-    const price = argv.price;
-    const sku = argv.sku;
+    const { option1 } = argv;
+    const { price } = argv;
+    const { sku } = argv;
 
     const { data: { variants } } = await getVariants(product_id);
 
@@ -85,4 +81,5 @@ const main = async () => {
 
 main();
 
+// eslint-disable-next-line max-len
 // npm run variants-cron -- --product_id=6667291459782 --updateLatestVariant --option1="2" --price="20" --sku="2"
