@@ -1,0 +1,11 @@
+# def packeges
+node_modules/
+.next/
+package-lock.json
+
+
+# keyrotator config
+keys.yml
+keys.*.yml
+.env
+my-env

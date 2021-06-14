@@ -1,0 +1,1 @@
+This app is used for back copy service. The app creates and deletes a product variant.
