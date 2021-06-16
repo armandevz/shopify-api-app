@@ -1,7 +1,5 @@
-// NOT WORKING.  Working script located config/server/server.js direction
-
 const express = require('express');
-const cronTask = require('./cron/products/cron');
+const cronTask = require('../../cron/products/cron');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,7 +14,7 @@ app.all('/server.js', (req, res) => {
   res.write('Back copy server.js');
   cronTask.backCopy90();
   res.end();
-  console.log('server.js file');
+  console.log('cron task is running: Delete/Add');
 });
 
 app.listen(PORT, () => {
