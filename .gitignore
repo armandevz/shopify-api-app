@@ -2,7 +2,7 @@
 node_modules/
 .next/
 package-lock.json
-
+backup/
 
 # keyrotator config
 keys.yml
