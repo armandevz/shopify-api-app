@@ -8,6 +8,12 @@ const CONFIG = {
   apiPassword: env.SHOPIFY_API_PASSWORD,
   shopName: env.SHOPIFY_STOREFRONT_DOMAIN,
   productId: env.SHOPIFY_PRODUCT_ID,
+
+  // Database credentials details
+  dbHost: env.DB_HOST,
+  dbUsername: env.DB_USERNAME,
+  dbPassword: env.DB_PASSWORD,
+  dbDatabase: env.DB_DATABASE,
 };
 
 module.exports = CONFIG;

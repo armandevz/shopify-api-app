@@ -29,9 +29,12 @@ class Variants {
   // The method create new variant
     async createVariant() {
       const params = {
+        "sku": new Date(),
         "option1": "TEST-DAY-" + Math.floor(Math.random() * 600),
-        "price": "17.00"
+        "price": "17.00",
+        "weight": 1.3,
       }
+
       await this.shopify.productVariant.create(this.productId, params);
       console.log('Product variant created');
     }
