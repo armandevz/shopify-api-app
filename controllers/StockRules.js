@@ -2,7 +2,7 @@ const { StockRule } = require('../model/stockRules');
 const BaseController = require('./BaseController');
 
 class StockRules extends BaseController {
-  async getStockRule() {
+  async getVariantPrice() {
     try {
       const model = await new StockRule().fetch();
       console.log(model.toJSON());
@@ -13,7 +13,7 @@ class StockRules extends BaseController {
   }
 
   // static async getStockRulesExceptions() {
-  //   // get rules exceptions from DB
+  //   get rules exceptions from DB
   // }
 }
 

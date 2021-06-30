@@ -14,6 +14,10 @@ const CONFIG = {
   dbUsername: env.DB_USERNAME,
   dbPassword: env.DB_PASSWORD,
   dbDatabase: env.DB_DATABASE,
+
+  // Product variants
+  variantQuantity: env.VARIANT_QUANTITY,
+  variantLocation: env.VARIANT_LOCATION,
 };
 
 module.exports = CONFIG;

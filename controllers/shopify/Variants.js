@@ -1,25 +1,24 @@
 require('dotenv').config({path:'../../.env'});
 const Shopify = require('shopify-api-node');
 const CONFIG = require('../../config/config');
+const StockRules  = require('../StockRules');
 const BaseController = require('../BaseController');
 
 class Variants extends BaseController {
   shopify = null;
   productId = null;
+  stockRules = null;
 
   constructor(productId) {
     super();
     this.productId = productId;
+    this.stockRules = new StockRules();
 
      this.shopify = new Shopify({
-      // shopName: process.env.SHOPIFY_STOREFRONT_DOMAIN,
-      // apiKey: process.env.SHOPIFY_API_KEY,
-      // password: process.env.SHOPIFY_API_PASSWORD,  
       shopName: CONFIG.shopName,
       apiKey: CONFIG.apiKey,
       password: CONFIG.apiPassword,    
-    });
-   
+    });   
   }
 
   // The methos gets all variants 
@@ -34,12 +33,12 @@ class Variants extends BaseController {
 
   // The method create new variant
     async createVariant() {
-      try {
+      try {        
         const params = {
           "sku": new Date(),
           "option1": "TEST-DAY-" + Math.floor(Math.random() * 600),
-          "price": "17.00",
-          "weight": 1.3,
+          "price": "13",
+          "weight": "2.3",
         }
   
         await this.shopify.productVariant.create(this.productId, params);
@@ -52,7 +51,8 @@ class Variants extends BaseController {
         const allLocationList = await this.shopify.location.list();
   
         const requestedLocation = await allLocationList.find((location) => {
-          return location.address1 === '151 Blair Park Road';
+          // return location.address1 === '151 Blair Park Road';
+          return location.address1 === CONFIG.variantLocation;
         });
   
         const requestedLocationId = requestedLocation.id;
@@ -60,7 +60,7 @@ class Variants extends BaseController {
         const params2 = {
           "location_id": requestedLocationId,
           "inventory_item_id": lastVariantInventoryId,
-          "available": 207
+          "available": CONFIG.variantQuantity
         }
         const inventoryLevel = await this.shopify.inventoryLevel.set(params2);
         console.log('Product variant created');

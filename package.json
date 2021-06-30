@@ -9,7 +9,7 @@
     "dev": "node server.js",
     "start": "NODE_ENV=production node server.js",
     "variants-cron": "node -r ./config.js ./cron/variants.js",
-    "db-migrate": "db-migrate --migrations-dir _database/migrations --config _database/config/database.json"
+    "db-migrate": "db-migrate --migrations-dir config/_database/migrations --config config/_database/config/database.json"
   },
   "keywords": [],
   "author": "Arman Fayziev",
