@@ -1,8 +1,6 @@
 const schedule = require('node-schedule');
 const ProductVariants = require('../../controllers/shopify/Variants');
 const CONFIG = require('../../config/config');
-const DatabaseVariants2 = require('../../controllers/StockRules');
-
 
 // schedule.scheduleJob('*/05 * * * * *', async () => { //0,30 * * * *
 //   const variants = new ProductVariants(CONFIG.productId);
@@ -20,5 +18,3 @@ schedule.scheduleJob('*/04 * * * * *', async () => {
 });
 //   },
 // };
-
-// DatabaseVariants2.getStockRules();

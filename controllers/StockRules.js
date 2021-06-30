@@ -1,15 +1,14 @@
 const { StockRule } = require('../model/stockRules');
+const BaseController = require('./BaseController');
 
-class StockRules {
-  // eslint-disable-next-line class-methods-use-this
-  static async getStockRules() {
+class StockRules extends BaseController {
+  async getStockRule() {
     try {
       const model = await new StockRule().fetch();
       console.log(model.toJSON());
       return model.toJSON();
     } catch (e) {
-      console.log('Variants :: getStockRules :: error', e);
-      throw new Error(e);
+      return this.logError(e, 'StockRules', 'getStockRules');
     }
   }
 

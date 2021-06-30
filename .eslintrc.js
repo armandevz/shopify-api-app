@@ -16,5 +16,6 @@ module.exports = {
     'no-multiple-empty-lines': [2, { max: 2 }],
     indent: ['error', 2],
     'no-empty': 'warn',
+    'class-methods-use-this': 0
   },
 };
