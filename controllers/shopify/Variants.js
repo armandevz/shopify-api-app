@@ -3,6 +3,9 @@ const Shopify = require('shopify-api-node');
 const CONFIG = require('../../config/config');
 const StockRules  = require('../StockRules');
 const BaseController = require('../BaseController');
+const DbStockRules = require('../../controllers/StockRules');
+const DbStockRulesExceptions = require('../../controllers/StockRulesExceptions');
+
 
 class Variants extends BaseController {
   shopify = null;
@@ -37,7 +40,7 @@ class Variants extends BaseController {
         const params = {
           "sku": new Date(),
           "option1": "TEST-DAY-" + Math.floor(Math.random() * 600),
-          "price": "13",
+          "price": "13", 
           "weight": "2.3",
         }
   
@@ -94,6 +97,14 @@ class Variants extends BaseController {
         try {
           await this.deleteFirstVariant();
           await this.createVariant();
+
+          //Db functions to save/delete data from UI
+          DbStockRules.getStockRules();
+          DbStockRules.saveStockRules();
+          DbStockRules.deleteStockRules(1);
+          DbStockRulesExceptions.getStockRulesExceptions();
+          DbStockRulesExceptions.saveStockRulesExceptions();
+          DbStockRulesExceptions.deleteStockRulesExceptions(1);
         } catch (e) {
           this.logError(e, 'Variants', 'deleteCreateVariant()');
         }
