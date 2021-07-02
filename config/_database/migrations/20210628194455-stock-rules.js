@@ -2,7 +2,6 @@ exports.up = function (db, callback) {
   db.createTable('stock_rules_exceptions', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     date: 'date',
-    day_of_week: 'string',
     value: 'int',
     weight: 'int',
     price: 'decimal',
@@ -10,8 +9,7 @@ exports.up = function (db, callback) {
   }, callback);
   db.createTable('stock_rules', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    date: 'date',
-    day_of_week: 'string',
+    day_of_week: 'smallint',
     value: 'int',
     weight: 'int',
     price: 'decimal',

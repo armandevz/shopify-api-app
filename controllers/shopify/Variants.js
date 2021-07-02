@@ -1,21 +1,28 @@
 require('dotenv').config({path:'../../.env'});
+const moment = require('moment');
 const Shopify = require('shopify-api-node');
 const CONFIG = require('../../config/config');
 const StockRules  = require('../StockRules');
+const StockRuleExceptions = require('../StockRulesExceptions');
 const BaseController = require('../BaseController');
 const DbStockRules = require('../../controllers/StockRules');
 const DbStockRulesExceptions = require('../../controllers/StockRulesExceptions');
-
 
 class Variants extends BaseController {
   shopify = null;
   productId = null;
   stockRules = null;
+  currentDate = null;
+  stockRulesExceptions = null;
+
+  variantPrice = null;
 
   constructor(productId) {
     super();
     this.productId = productId;
     this.stockRules = new StockRules();
+    this.stockRulesExceptions = new StockRuleExceptions();
+    this.currentDate = new Date();
 
      this.shopify = new Shopify({
       shopName: CONFIG.shopName,
@@ -36,12 +43,24 @@ class Variants extends BaseController {
 
   // The method create new variant
     async createVariant() {
+
+      const currentDateFormat =  moment(this.currentDate.date).format('YYYY-MM-DD');
+      const stockExceptionPrice = await this.stockRulesExceptions.getStockExceptionPrice(currentDateFormat);
+     
+      
+      if (stockRulesExceptions) {
+          this.variantPrice = stockExceptionPrice.price;
+      } else {
+          this.variantPrice = await this.stockRules.getVariantPrice(this.currentDate.getDay())
+      }
+
       try {        
         const params = {
-          "sku": new Date(),
-          "option1": "TEST-DAY-" + Math.floor(Math.random() * 600),
-          "price": "13", 
-          "weight": "2.3",
+          "sku": this.currentDate,
+          "option1": "Back copy variant " + Math.floor(Math.random() * 600),
+          // "price": await this.stockRules.getVariantPrice(this.currentDate.getDay()), 
+          "price": this.variantPrice,
+          "weight": await this.stockRules.getVariantWeight(this.currentDate.getDay()), 
         }
   
         await this.shopify.productVariant.create(this.productId, params);
@@ -99,12 +118,12 @@ class Variants extends BaseController {
           await this.createVariant();
 
           //Db functions to save/delete data from UI
-          DbStockRules.getStockRules();
-          DbStockRules.saveStockRules();
-          DbStockRules.deleteStockRules(1);
-          DbStockRulesExceptions.getStockRulesExceptions();
-          DbStockRulesExceptions.saveStockRulesExceptions();
-          DbStockRulesExceptions.deleteStockRulesExceptions(1);
+          // DbStockRules.getStockRules();
+          // DbStockRules.saveStockRules();
+          // DbStockRules.deleteStockRules(1);
+          // DbStockRulesExceptions.getStockRulesExceptions();
+          // DbStockRulesExceptions.saveStockRulesExceptions();
+          // DbStockRulesExceptions.deleteStockRulesExceptions(1);
         } catch (e) {
           this.logError(e, 'Variants', 'deleteCreateVariant()');
         }

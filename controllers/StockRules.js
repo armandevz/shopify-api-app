@@ -2,27 +2,48 @@ const { StockRule } = require('../model/stockRules');
 const BaseController = require('./BaseController');
 
 class StockRules extends BaseController {
-  static async getStockRules() {
+  async getVariantWeight(dayOfWeek) {
     try {
-      const model = await new StockRule().fetch();
-      console.log(model.toJSON());
-      return model.toJSON();
+      const model = await new StockRule().fetchAll();
+      const data = model.toJSON();
+
+      // const currentDate = new Date();
+      // console.log(currentDate.getDay());
+
+      // const currentDate = new Date();
+      // const currentDayOfWeek = currentDate.toLocaleString('default', { weekday: 'long' });
+      // const objVariant = data.find((week) => week.day_of_week === currentDayOfWeek);
+      // const currentDayOfWeek = currentDate.getDay();
+      const objVariant = data.find((week) => week.day_of_week === dayOfWeek);
+      // console.log(objVariant.weight);
+      return objVariant.weight;
     } catch (e) {
-      console.log('Variants :: getStockRules :: error', e);
+      console.log('Variants :: getVariantWeight :: error', e);
       throw new Error(e);
     }
   }
 
-  //  This part of script is to save data to StockRules table
+  async getVariantPrice(dayOfWeek) {
+    try {
+      const model = await new StockRule().fetchAll();
+      const data = model.toJSON();
+      const objVariant = data.find((week) => week.day_of_week === dayOfWeek);
+      return objVariant.price;
+    } catch (e) {
+      console.log('StockRules :: getVariantPrice :: error', e);
+      throw new Error(e);
+    }
+  }
+
+  // //  This part of script is to save data to StockRules table
   static async saveStockRules() {
     try {
       const data = {
-        date: new Date(),
-        day_of_week: 22,
-        value: 13,
-        weight: 25,
-        price: 2,
-        inventory_quantity: 20,
+        day_of_week: 5,
+        value: 7,
+        weight: 7,
+        price: 7,
+        inventory_quantity: 111,
       };
       const model = await StockRule.forge();
       await model.save(data, { method: 'insert' });
@@ -42,4 +63,9 @@ class StockRules extends BaseController {
     }
   }
 }
+
 module.exports = StockRules;
+// StockRules.saveStockRules();
+
+// const test = new StockRules();
+// test.getVariantPrice(7);

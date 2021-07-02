@@ -7,6 +7,8 @@ const knex = require('knex')({
     user: CONFIG.dbUsername,
     password: CONFIG.dbPassword,
     database: CONFIG.dbDatabase,
+    timezone: 'utc+0',
+    dateStrings: 'date',
     charset: 'utf8',
   },
 });

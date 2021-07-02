@@ -5,6 +5,8 @@
         "password": {"ENV": "DB_PASSWORD"},
         "database": {"ENV": "DB_DATABASE"},
         "driver": "mysql",
-        "multipleStatements": true
+        "multipleStatements": true,
+        "timezone": "utc+0",
+        "dateStrings": "date" 
     }, "sql-file": false
 }
