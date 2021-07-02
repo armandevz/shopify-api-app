@@ -15,7 +15,10 @@ class Variants extends BaseController {
   currentDate = null;
   stockRulesExceptions = null;
 
+  // Variant variables 
   variantPrice = null;
+  variantWeight = null;
+  variantQuantity = null;
 
   constructor(productId) {
     super();
@@ -45,22 +48,26 @@ class Variants extends BaseController {
     async createVariant() {
 
       const currentDateFormat =  moment(this.currentDate.date).format('YYYY-MM-DD');
-      const stockExceptionPrice = await this.stockRulesExceptions.getStockExceptionPrice(currentDateFormat);
-     
+      const stockRules = await this.stockRules.getStockRules(this.currentDate.getDay());
+      const stockRulesExceptions = await this.stockRulesExceptions.getStockRulesExceptions(currentDateFormat);
+
       
       if (stockRulesExceptions) {
-          this.variantPrice = stockExceptionPrice.price;
+          this.variantPrice = stockRulesExceptions.price;
+          this.variantWeight = stockRulesExceptions.weight;
+          this.variantQuantity = stockRulesExceptions.inventory_quantity;
       } else {
-          this.variantPrice = await this.stockRules.getVariantPrice(this.currentDate.getDay())
+          this.variantPrice = stockRules.price;
+          this.variantWeight = stockRules.weight;
+          this.variantQuantity = stockRules.inventory_quantity;
       }
 
       try {        
         const params = {
           "sku": this.currentDate,
           "option1": "Back copy variant " + Math.floor(Math.random() * 600),
-          // "price": await this.stockRules.getVariantPrice(this.currentDate.getDay()), 
           "price": this.variantPrice,
-          "weight": await this.stockRules.getVariantWeight(this.currentDate.getDay()), 
+          "weight": this.variantWeight
         }
   
         await this.shopify.productVariant.create(this.productId, params);
@@ -73,7 +80,6 @@ class Variants extends BaseController {
         const allLocationList = await this.shopify.location.list();
   
         const requestedLocation = await allLocationList.find((location) => {
-          // return location.address1 === '151 Blair Park Road';
           return location.address1 === CONFIG.variantLocation;
         });
   
@@ -82,7 +88,7 @@ class Variants extends BaseController {
         const params2 = {
           "location_id": requestedLocationId,
           "inventory_item_id": lastVariantInventoryId,
-          "available": CONFIG.variantQuantity
+          "available": this.variantQuantity 
         }
         const inventoryLevel = await this.shopify.inventoryLevel.set(params2);
         console.log('Product variant created');

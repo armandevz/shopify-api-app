@@ -2,13 +2,10 @@ const moment = require('moment');
 const { StockRuleExceptions } = require('../model/stockRules');
 
 class StockRulesExceptions {
-  async getStockExceptionPrice(currentDate) {
+  async getStockRulesExceptions(currentDate) {
     try {
       const model = await new StockRuleExceptions().fetchAll();
       const data = model.toJSON();
-
-      // const dateToday = new Date();
-      // const currentDate = moment(dateToday.date).format('YYYY-MM-DD');
 
       return data.find((byDate) => byDate.date === currentDate) || null;
     } catch (e) {
@@ -18,16 +15,16 @@ class StockRulesExceptions {
   }
 
   static async saveStockRulesExceptions() {
-    // Move Date() shopify/Variants.js class
+    // Move Date() to the shopify/Variants.js class
     const currentDate = new Date();
     const dateTime = moment(currentDate.date).format('YYYY-MM-DD');
     try {
       const data = {
         date: dateTime,
-        value: 5,
-        weight: 7,
-        price: 1,
-        inventory_quantity: 151,
+        value: 6,
+        weight: 8,
+        price: 7,
+        inventory_quantity: 277,
       };
       const model = await StockRuleExceptions.forge();
       await model.save(data, { method: 'insert' });
@@ -47,6 +44,3 @@ class StockRulesExceptions {
   }
 }
 module.exports = StockRulesExceptions;
-// saveStockRulesExceptions  getStockRulesExceptions
-// StockRulesExceptions.getStockRulesExceptions();
-
