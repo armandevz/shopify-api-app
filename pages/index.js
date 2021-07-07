@@ -1,6 +1,12 @@
+import Navbar from '../components/Navbar'
+import Form from '../components/Form'
+import DatePickerUi from '../components/DatePicker'
+
 const Index = () => (
     <div>
-      <p>Privet app for NYT back copy</p>
+      <Navbar/>
+      <DatePickerUi/>
+      <Form/>
     </div>
   );
   
