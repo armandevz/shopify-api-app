@@ -46,7 +46,6 @@ class Variants extends BaseController {
 
   // The method create new variant
     async createVariant() {
-
       const currentDateFormat =  moment(this.currentDate.date).format('YYYY-MM-DD');
       const stockRules = await this.stockRules.getStockRules(this.currentDate.getDay());
       const stockRulesExceptions = await this.stockRulesExceptions.getStockRulesExceptions(currentDateFormat);
