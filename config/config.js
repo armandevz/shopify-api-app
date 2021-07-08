@@ -18,6 +18,9 @@ const CONFIG = {
   // Product variants
   variantQuantity: env.VARIANT_QUANTITY,
   variantLocation: env.VARIANT_LOCATION,
+
+  // Host
+  supportHost: env.LOCALHOST,
 };
 
 module.exports = CONFIG;

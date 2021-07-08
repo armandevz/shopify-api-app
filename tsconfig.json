@@ -18,12 +18,12 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
+  "import/extensions": "never",
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "model/stockRules.js"
-  ],
+    "**/*.tsx"
+, "controllers/StockRulesExceptions.js"  ],
   "exclude": [
     "node_modules"
   ]

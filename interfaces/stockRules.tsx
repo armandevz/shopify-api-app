@@ -9,8 +9,5 @@ export interface IStockRule {
 
 export interface IStockRuleExceptions {
     date: Date;
-    value: number;
-    weight: number;
-    price: number;
     inventory_quantity: number
 }
