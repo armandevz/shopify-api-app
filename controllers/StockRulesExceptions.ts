@@ -7,12 +7,10 @@ class StockRulesExceptions {
     date: Date
   ): Promise<IStockRuleExceptions | null> {
     try {
-      const model = await new StockRuleExceptions().fetchAll({
+      const model = await new StockRuleExceptions().where({ date }).fetch({
         require: false,
       });
-      const data = model ? model.toJSON() : [];
-
-      return data.find((byDate) => byDate.date === date) || null;
+      return model ? model.toJSON() : null;
     } catch (e) {
       console.log('Variants :: getStockRulesExceptions :: error', e);
       throw new Error(e);
@@ -36,20 +34,18 @@ class StockRulesExceptions {
     data: IStockRuleExceptions
   ): Promise<IStockRuleExceptions> {
     try {
-      const existingData = await this.getStockRulesExceptions(data.date);
-      // This part must be fixed to update data
+      // const existingData = await this.getStockRulesExceptions(data.date);
+      const existingData = await new StockRuleExceptions()
+        .where({ date: data.date })
+        .fetch({
+          require: false,
+        });
+      // This part to update data
       if (!existingData) {
-        // update
-        // const model = await StockRuleExceptions.forge();
-        // model.where({date: data.date})
-        // .save({date: data.date}, {method: 'update', patch: true})
-        // return model.save( { method: 'update', patch: true });
         const model = await StockRuleExceptions.forge();
         return model.save(data, { method: 'insert' });
       } else {
-        // insert
-        // const model = await StockRuleExceptions.forge();
-        // return model.save(data, { method: 'insert' });
+        existingData.save(data, { method: 'update' });
         return null;
       }
     } catch (e) {

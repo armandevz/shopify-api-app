@@ -1,4 +1,4 @@
-import { IStockRule } from "../interfaces/stockRules";
+import { IStockRule } from '../interfaces/stockRules';
 
 const { StockRule } = require('../model/stockRules');
 const BaseController = require('./BaseController');
@@ -16,19 +16,21 @@ class StockRules extends BaseController {
     }
   }
 
-  //  This part of script is to save data to StockRules table
-  static async saveStockRules(): Promise<IStockRule> {
+  async getAllStockRules() {
     try {
-      const data = {
-        day_of_week: 5,
-        value: 5,
-        weight: 5,
-        price: 5,
-        inventory_quantity: 200,
-      };
+      const model = await new StockRule().fetchAll();
+      return model.toJSON();
+    } catch (e) {
+      console.log('StockRules :: getAllStockRules :: error', e);
+      throw new Error(e);
+    }
+  }
+
+  //  This part of script is to save data to StockRules table
+  async saveStockRules(data: IStockRule[]): Promise<boolean> {
+    try {
       const model = await StockRule.forge();
       return model.save(data, { method: 'insert' });
-      // console.log(model.toJSON());
     } catch (e) {
       console.log(`Failed to save data: ${e}`);
     }

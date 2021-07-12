@@ -1,10 +1,10 @@
 import StockRulesExceptions from '../../../controllers/StockRulesExceptions.ts';
 
+// const StockRulesExceptions = require('../../../controllers/StockRulesExceptions.ts');
+
 export default async (req, res) => {
   const httpMethod = req.method;
-  const {
-    date, inventory_quantity,
-  } = req.body;
+  const { date, inventory_quantity } = req.body;
 
   switch (httpMethod) {
   case 'GET':
@@ -22,7 +22,7 @@ export default async (req, res) => {
         date,
         inventory_quantity,
       };
-      // eslint-disable-next-line max-len
+        // eslint-disable-next-line max-len
       const stockRulesExceptions = await new StockRulesExceptions().saveStockRulesExceptions(data);
       res.status(200).json(stockRulesExceptions);
     } catch (error) {

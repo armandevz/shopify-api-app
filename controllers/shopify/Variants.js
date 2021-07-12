@@ -5,8 +5,6 @@ const CONFIG = require('../../config/config');
 const StockRules  = require('../StockRules');
 const StockRuleExceptions = require('../StockRulesExceptions');
 const BaseController = require('../BaseController');
-const DbStockRules = require('../../controllers/StockRules');
-const DbStockRulesExceptions = require('../../controllers/StockRulesExceptions');
 
 class Variants extends BaseController {
   shopify = null;
@@ -121,13 +119,6 @@ class Variants extends BaseController {
           await this.deleteFirstVariant();
           await this.createVariant();
 
-          //Db functions to save/delete data from UI
-          // DbStockRules.getStockRules();
-          // DbStockRules.saveStockRules();
-          // DbStockRules.deleteStockRules(1);
-          // DbStockRulesExceptions.getStockRulesExceptions();
-          // DbStockRulesExceptions.saveStockRulesExceptions();
-          // DbStockRulesExceptions.deleteStockRulesExceptions(1);
         } catch (e) {
           this.logError(e, 'Variants', 'deleteCreateVariant()');
         }

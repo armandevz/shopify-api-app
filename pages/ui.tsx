@@ -57,7 +57,7 @@ class Ui extends Component<IState> {
 
   renderDatePicker() {
     const date = new Date();
-    const limitedDays = date.setDate(date.getDate() - 90);
+    const limitedDays = date.setDate(date.getDate() + 1);
 
     return (
       <div>

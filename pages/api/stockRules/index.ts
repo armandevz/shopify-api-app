@@ -1,39 +1,36 @@
-const { StockRule } = require('../../../model/stockRules');
+import { IStockRule } from '../../../interfaces/stockRules';
+
+import StockRules from '../../../controllers/StockRules.ts';
 
 export default async (req, res) => {
   const httpMethod = req.method;
-  const {
-    day_of_week, value, weight, price, inventory_quantity,
-  } = req.body;
+  const { days } = req.body as { days: IStockRule[] };
+  // const { day_of_week, weight, price, inventory_quantity } = req.body;
 
   switch (httpMethod) {
-  case 'GET':
-    // eslint-disable-next-line no-case-declarations
-    const data1 = await new StockRule().fetchAll();
-    // eslint-disable-next-line no-case-declarations
-    const data = data1.toJSON();
-    res.status(200).json(data);
-    break;
-  case 'POST':
-    try {
-      // eslint-disable-next-line no-shadow
-      const data = {
-        day_of_week,
-        value,
-        weight,
-        price,
-        inventory_quantity,
-      };
-      const model2 = await StockRule.forge();
-      res.status(200).json(data);
-      return model2.save(data, { method: 'insert' });
-    } catch (e) {
-      console.log(`Failed to post data: ${e}`);
-    }
+    case 'GET':
+      try {
+        const getRulesData = await new StockRules().getAllStockRules();
+        res.status(200).json(getRulesData);
+      } catch (error) {}
+      break;
+    case 'POST':
+      try {
+        // const data = {
+        //   day_of_week,
+        //   weight,
+        //   price,
+        //   inventory_quantity,
+        // };
+        const stockRules = await new StockRules().saveStockRules(days);
+        res.status(200).json(stockRules);
+      } catch (e) {
+        res.status(500).json({ e });
+      }
 
-    break;
-  default:
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${httpMethod} Not Allowed`);
+      break;
+    default:
+      res.setHeader('Allow', ['GET', 'POST']);
+      res.status(405).end(`Method ${httpMethod} Not Allowed`);
   }
 };
