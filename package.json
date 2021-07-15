@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "next build",
-    "next-start": "next dev",
-    "start": "NODE_ENV=production node server.js",
-    "variants-cron": "node -r ./config.js ./cron/variants.js",
+    "start": "next build && next start",
+    "dev": "next dev",
+    "cron": "ts-node cron/index.ts",
     "db-migrate": "db-migrate --migrations-dir config/_database/migrations --config config/_database/config/database.json"
   },
   "keywords": [],
@@ -16,6 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "@shopify/koa-shopify-auth": "^4.1.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "axios": "^0.21.1",
     "bookshelf": "^1.2.0",
     "db-migrate": "^0.11.12",
@@ -39,10 +41,12 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
+    "@types/node-schedule": "^1.3.2",
     "@types/react": "^17.0.13",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   }
 }

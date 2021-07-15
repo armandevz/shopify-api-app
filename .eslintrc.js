@@ -1,11 +1,13 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
-    es2021: true,
+    node: true,
   },
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   extends: [
-    'airbnb-base',
+    'plugin:@typescript-eslint/recommended',
+    'eslint-config-airbnb-base',
   ],
   parserOptions: {
     ecmaVersion: 12,
@@ -16,6 +18,6 @@ module.exports = {
     'no-multiple-empty-lines': [2, { max: 2 }],
     indent: ['error', 2],
     'no-empty': 'warn',
-    'class-methods-use-this': 0
+    'class-methods-use-this': 0,
   },
 };

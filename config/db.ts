@@ -1,6 +1,7 @@
-const CONFIG = require('./config');
+import { CONFIG } from './config';
+import connection from 'knex';
 
-const knex = require('knex')({
+export const knex = connection({
   client: 'mysql',
   connection: {
     host: CONFIG.dbHost,
@@ -8,9 +9,7 @@ const knex = require('knex')({
     password: CONFIG.dbPassword,
     database: CONFIG.dbDatabase,
     timezone: 'utc+0',
-    dateStrings: 'date',
+    dateStrings: true,
     charset: 'utf8',
   },
 });
-
-module.exports = knex;

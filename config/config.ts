@@ -1,8 +1,8 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 const { env } = process;
 
-const CONFIG = {
+export const CONFIG = {
   port: env.PORT,
   apiKey: env.SHOPIFY_API_KEY,
   apiPassword: env.SHOPIFY_API_PASSWORD,
@@ -22,5 +22,3 @@ const CONFIG = {
   // Host
   supportHost: env.LOCALHOST,
 };
-
-module.exports = CONFIG;

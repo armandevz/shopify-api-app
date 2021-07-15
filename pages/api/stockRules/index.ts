@@ -1,6 +1,5 @@
 import { IStockRule } from '../../../interfaces/stockRules';
-
-import StockRules from '../../../controllers/StockRules.ts';
+import StockRules from '../../../controllers/StockRules';
 
 export default async (req, res) => {
   const httpMethod = req.method;

@@ -1,13 +1,13 @@
 import { IStockRuleExceptions } from '../interfaces/stockRules';
-const { StockRuleExceptions } = require('../model/stockRules');
+import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockRules';
 
-class StockRulesExceptions {
+export default class StockRulesExceptions {
   // Function must be checked. Changes has been aplied
   async getStockRulesExceptions(
     date: Date
   ): Promise<IStockRuleExceptions | null> {
     try {
-      const model = await new StockRuleExceptions().where({ date }).fetch({
+      const model = await new StockRuleExceptionsModel().where({ date }).fetch({
         require: false,
       });
       return model ? model.toJSON() : null;
@@ -19,7 +19,7 @@ class StockRulesExceptions {
 
   async getAllStockRulesExceptions(): Promise<IStockRuleExceptions | null> {
     try {
-      const model = await new StockRuleExceptions().fetchAll();
+      const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
     } catch (e) {
       console.log(
@@ -35,14 +35,14 @@ class StockRulesExceptions {
   ): Promise<IStockRuleExceptions> {
     try {
       // const existingData = await this.getStockRulesExceptions(data.date);
-      const existingData = await new StockRuleExceptions()
+      const existingData = await new StockRuleExceptionsModel()
         .where({ date: data.date })
         .fetch({
           require: false,
         });
       // This part to update data
       if (!existingData) {
-        const model = await StockRuleExceptions.forge();
+        const model = await StockRuleExceptionsModel.forge();
         return model.save(data, { method: 'insert' });
       } else {
         existingData.save(data, { method: 'update' });
@@ -55,7 +55,7 @@ class StockRulesExceptions {
 
   static async deleteStockRulesExceptions(id): Promise<boolean> {
     try {
-      await new StockRuleExceptions({ id }).destroy();
+      await new StockRuleExceptionsModel({ id }).destroy();
       return true;
     } catch (e) {
       console.log(`Failed to delete data: ${e}`);
@@ -63,5 +63,3 @@ class StockRulesExceptions {
     }
   }
 }
-
-module.exports = StockRulesExceptions;

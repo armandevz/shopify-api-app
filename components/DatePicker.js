@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-const moment = require('moment');
+import moment from 'moment';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const date = new Date();
 const limitedDays = date.setDate( date.getDate() - 90 );
-
 
 const DatePickerUi = () => {
     const [selectedDate, setSelecteddate] = useState(null);

@@ -12,10 +12,6 @@ interface IState {
 }
 
 class Ui extends Component<IState> {
-  constructor(props) {
-    super(props);
-    this.getVariants();
-  }
   state = {
     selectedDate: 0,
     variants: [],
@@ -24,7 +20,7 @@ class Ui extends Component<IState> {
 
   getVariants = async () => {
     const data = await axios
-      .get('/api/stockRulesExceptions/')
+      .get('/api/stockRulesExceptions')
       .then(({ data }) => data);
     this.setState({ variants: data });
   };
@@ -38,7 +34,7 @@ class Ui extends Component<IState> {
 
     console.log(postData);
 
-    await axios.post('/api/stockRulesExceptions/', postData).catch((err) => {
+    await axios.post('/api/stockRulesExceptions', postData).catch((err) => {
       console.log('Post error is: ', err);
     });
   };
