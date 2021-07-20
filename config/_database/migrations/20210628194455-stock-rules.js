@@ -11,9 +11,12 @@ exports.up = function (db, callback) {
     price: 'decimal',
     inventory_quantity: 'int',
   }, callback);
+
 };
+
+
 
 exports.down = function (db, callback) {
   db.dropTable('stock_rules_exceptions');
-  db.dropTable('stock_rules', callback);
+  db.dropTable('stock_rules', callback); 
 };

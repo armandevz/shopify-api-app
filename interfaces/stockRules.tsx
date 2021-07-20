@@ -1,7 +1,7 @@
 export type DayNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export interface IStockRule {
-  // [x: string]: any;
+  id: number;
   day_of_week: DayNumbers;
   weight: number;
   price: number;
@@ -9,6 +9,7 @@ export interface IStockRule {
 }
 
 export interface IStockRuleExceptions {
+  id: number;
   date: Date;
   inventory_quantity: number;
 }

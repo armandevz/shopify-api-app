@@ -1,0 +1,124 @@
+body {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title { 
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 80px;
+  font-size: 40px;
+}
+
+.Polaris-DatePicker__MonthLayout {
+  max-width: 910px;
+}
+
+th {
+  font-size: 16px;
+  padding-bottom: 10px;
+} 
+
+.day_of_week {
+  font-size: 20px;
+  margin-top: 10px;
+
+}
+
+#formData {
+  padding-bottom: 50px;
+}
+
+.polarisButton {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px; 
+  margin-top: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.quantityLabel {
+  padding-right: 20px;
+  font-size: 16px;
+}
+
+.quantityInput {
+  padding: 10px 20px; 
+  margin-top: 15px;
+}
+
+.quantityInput input {
+  font-size: 16px;
+}
+
+.quantityButton {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px; 
+  margin-top: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.description {
+  padding-left: 40px;
+  font-size: 16px;
+}
+
+.quantityForm {
+  padding-left: 40px;
+}
+
+h2 {
+  padding-bottom: 40px;
+  font-size: 18px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row row row;
+}
+
+.react-datepicker__day-names {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.react-datepicker__day-name {
+  font-size: 13px;
+}
+
+.react-datepicker__week {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 20px; 
+  font-size: 13px;
+} 
+
+.react-datepicker__month-container {
+  min-height: 300px;
+  min-width: 300px;
+}
+
+.react-datepicker__header {
+
+}

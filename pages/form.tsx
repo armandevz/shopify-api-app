@@ -1,104 +1,148 @@
-import React, { ChangeEvent, Component, useState } from 'react';
-import { axios } from '../config/utils/axios';
-import { numberToDays } from '../config/utils/days';
-import { DayNumbers, IStockRule } from '../interfaces/stockRules';
+import React from "react";
+import { axios } from "../config/utils/axios";
+import styles from '../styles/Form.module.css'
 
-const defaultDay: IStockRule = {
-  day_of_week: 1,
-  weight: 0,
-  price: 0,
-  inventory_quantity: 0,
-};
+import enTranslations from '@shopify/polaris/locales/en.json';
+import {AppProvider, Button, FormLayout, TextField} from '@shopify/polaris';
 
-class Form extends Component {
-  state: { days: IStockRule[] } = {
-    days: Array(7)
-      .fill(defaultDay)
-      .map(
-        (day, index) =>
-          ({
-            ...day,
-            day_of_week: index + 1,
-          } as IStockRule)
-      ),
-  };
+class Form extends React.Component {
+  
+  state = { data: null };
 
-  postStockRules = async () => {
-    await axios.post('/api/stockRules/', this.state).catch((err) => {
-      console.log('Post error is: ', err);
-      console.log(this.state, 'postStockRules func');
+  getData = async (): Promise<void> => {
+    const response = await axios
+      .get("/api/stockRules/")
+      .catch((err) => console.log("Error:", err));
+
+    if (response && response.data) this.setState({ data: response.data });
+  };  
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  handleChange = (e, index: number) => {
+    const { value, name } = e.target;
+    const { data } = this.state;
+
+    if (!data) return;
+
+    const newData = data.map((row, i) => {
+      if (i === index) {
+        return { ...row, [name]: parseInt(value, 10) };
+      }
+
+      return row;
     });
+
+    this.setState({ data: newData });
   };
 
-  //To do: do not except negative value
-  changeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    dayNumber: DayNumbers
-  ) => {
-    const dayInd = this.state.days.findIndex(
-      (day) => day.day_of_week === dayNumber
-    );
-
-    const currentDays = this.state.days;
-    currentDays[dayInd] = {
-      ...currentDays[dayInd],
-      [e.target.name]: e.target.value,
-    };
-
-    this.setState({ days: currentDays });
+  addData = async (e) => {
+    e.preventDefault();
+    // console.log(this.state.formData);
+    await axios
+      .put("/api/stockRules/", this.state.data)
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
   };
 
-  renderStockRulesForm() {
-    // const { day, weight1, price1, inventory_quantity1 } = this.state;
-    console.log(this.state.days);
+  renderTable() {
+    const { data } = this.state;
+
+    if (!data) {
+      return null;
+    }
+  }
+
+  getDayOfWeekName(number: number): string {
+    switch (number) {
+      case 1:
+        default:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4: 
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6: 
+        return 'Saturday';
+      case 7:
+        return 'Sunday';        
+    }
+  }
+
+  render(): React.ReactNode {
+    const { data } = this.state;
+
+    if (!data) {
+      return null;
+    }
 
     return (
-      <>
-        {this.state.days.map((day, index) => (
-          <form key={index}>
-            <input
-              name='day_of_week'
-              type='text'
-              value={numberToDays[day.day_of_week]}
-              onChange={(e) => this.changeHandler(e, day.day_of_week)}
-              required
-              disabled
-            />
-
-            <input
-              name='weight'
-              placeholder='weight'
-              type='number'
-              value={!!day.weight ? day.weight : ''}
-              onChange={(e) => this.changeHandler(e, day.day_of_week)}
-              required
-            />
-            <input
-              name='price'
-              placeholder='price'
-              type='number'
-              value={!!day.price ? day.price : ''}
-              onChange={(e) => this.changeHandler(e, day.day_of_week)}
-              required
-            />
-            <input
-              name='inventory_quantity'
-              placeholder='quantity'
-              type='number'
-              value={!!day.inventory_quantity ? day.inventory_quantity : ''}
-              onChange={(e) => this.changeHandler(e, day.day_of_week)}
-              required
-            />
-          </form>
-
-          // To do: create a button submitOnClick only if all are filled
-        ))}
-        <input type='submit' onClick={this.postStockRules} />
-      </>
+      <div className={styles.container}>
+        {/* <DatePickerUi /> */}
+        <form id="formData" onSubmit={this.addData}>
+          <table>
+            <tr>
+              <th>Day of week</th> 
+              <th>Weight</th>
+              <th>Price</th>
+              <th>Inventory quantity</th>
+            </tr>
+            {data.map((value, index) => {
+              return (
+                <tr className="formRule" key={index}>
+                  <td>
+                    <input
+                      name="day_of_week"
+                      value={this.getDayOfWeekName(value.day_of_week)}
+                      disabled
+                    ></input>
+                  </td>
+                  <td>
+                    <input
+                      required
+                      type="number"
+                      name="weight"
+                      placeholder="1"
+                      onChange={(e) => this.handleChange(e, index)}
+                      value={value.weight}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      required
+                      type="number"
+                      name="price"
+                      placeholder="2.50"
+                      onChange={(e) => this.handleChange(e, index)}
+                      value={value.price}
+                    />
+                  </td>
+                  <td>
+                  <input
+                      // required
+                      type="number"
+                      name="inventory_quantity"
+                      placeholder="200"
+                      onChange={(e) => this.handleChange(e, index)}
+                      value={value.inventory_quantity}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </table>
+          {/* <Button primary type="submit">Save theme</Button> */}
+          <button className="polarisButton" type="submit">Add</button>
+        </form>
+      </div>
     );
-  }
-  render() {
-    return <>{this.renderStockRulesForm()}</>;
   }
 }
 

@@ -1,34 +1,39 @@
 import React, { Component, useState } from 'react';
-import DatePicker from 'react-datepicker';
+import {DatePicker} from '@shopify/polaris';
 import { axios } from '../config/utils/axios';
 import 'react-datepicker/dist/react-datepicker.css';
 import Navbar from '../components/Title';
+import { IStockRuleExceptions } from '../interfaces/stockRules';
+
 const moment = require('moment');
 
 interface IState {
-  selectedDate: Date | number;
-  variants: Object;
+  selectedDate: {start: Date, end: Date};
+  variants: IStockRuleExceptions[];
   quantity: number;
 }
 
-class Ui extends Component<IState> {
-  state = {
-    selectedDate: 0,
+class Ui extends Component<{}, IState> {
+  state: IState = {
+    ...this.state,
+    selectedDate: {start: new Date(), end: new Date()},
     variants: [],
-    quantity: '',
+    quantity: null,
   };
 
-  getVariants = async () => {
+  protected getVariants = async (): Promise<void> => {
     const data = await axios
       .get('/api/stockRulesExceptions')
       .then(({ data }) => data);
+
     this.setState({ variants: data });
   };
 
-  postVariant = async (e) => {
+  protected postVariant = async (e: any): Promise<void> => {
     e.preventDefault();
+
     const postData = {
-      date: moment(this.state.selectedDate).format('YYYY-MM-DD'),
+      date: moment(this.state.selectedDate.start).format('YYYY-MM-DD'),
       inventory_quantity: this.state.quantity,
     };
 
@@ -39,52 +44,58 @@ class Ui extends Component<IState> {
     });
   };
 
-  changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  protected changeHandler = (e: any): void => {
+    this.setState({ [e.target.name]: e.target.value } as any);
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.getVariants();
   }
 
-  setSelectedDate(date) {
-    this.setState({ selectedDate: date });
+  //
+  protected setSelectedDate(selectedDate): void {
+    this.setState({ selectedDate });
   }
 
-  renderDatePicker() {
+  protected renderDatePicker(): React.ReactNode {
     const date = new Date();
     const limitedDays = date.setDate(date.getDate() + 1);
 
     return (
       <div>
         <DatePicker
+          // selected={this.state.selectedDate}
+          // onChange={(date) => this.setSelectedDate(date)}
+          // minDate={limitedDays}
+          // inline
+          month={1}
+          year={2021}
+          onChange={(date) => 
+          this.setSelectedDate(date)}
+          onMonthChange={() => {
+          }}
           selected={this.state.selectedDate}
-          onChange={(date) => this.setSelectedDate(date)}
-          minDate={limitedDays}
-          inline
         />
       </div>
     );
   }
 
-  renderInventoryQuantity() {
-    const pickedDate = moment(this.state.selectedDate).format('YYYY-MM-DD');
-    const selectedVariant =
-      this.state.variants.find((variants) => variants.date === pickedDate) ||
-      null;
+  protected renderInventoryQuantity(): React.ReactNode {
+    const { selectedDate, variants, quantity } = this.state;
+
+    const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
+    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null;
 
     let variantQuantity;
     if (selectedVariant) {
       variantQuantity = selectedVariant.inventory_quantity;
     }
 
-    const { quantity } = this.state;
-
     return (
       <>
         <form onSubmit={this.postVariant}>
           <p>
-            Quantity on {moment(this.state.selectedDate).format('YYYY-MM-DD')}{' '}
+            Quantity on {pickedDate}
             is: <b>{variantQuantity}</b>
           </p>
 
@@ -100,20 +111,17 @@ class Ui extends Component<IState> {
           <input type='submit' value='Submit' />
         </form>
         {this.state.variants.map((variants) => (
-          <p key={variants.id}>
-            {' '}
-            {'date'} {variants.date} || {'weight'} {variants.weight} ||{' '}
-            {'Stock'} {variants.inventory_quantity}{' '}
-          </p>
+          <div key={variants.id}>
+            {/* <p>Date: {variants.date} || Stock: {variants.inventory_quantity}</p> */}
+          </div>
         ))}
       </>
     );
   }
 
-  render() {
+  public render(): React.ReactNode {
     return (
       <div>
-        <Navbar />
         {this.renderDatePicker()}
         {this.renderInventoryQuantity()}
       </div>
