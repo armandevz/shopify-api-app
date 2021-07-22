@@ -2,6 +2,9 @@ import Title from '../components/Title';
 import DatePicker from '../components/DatePicker';
 import Form from './form';
 import Head from 'next/head'
+import React from 'react';
+import { DisplayText } from '@shopify/polaris';
+import Cron from '../components/Cron';
 
 const Index = () => (
   <body>
@@ -15,18 +18,18 @@ const Index = () => (
       <div className="title">
         <Title />
       </div>
-      <h2>Stock Rules</h2>
-      <div className="wrapper">
+      <div className="subtitle">
+      <DisplayText size="large">Stock Rules</DisplayText>
+      </div>
         <Form />
-        <div className="description">Some description</div>
-      </div>
-      <h2>Stock Rules Exceptions</h2>
-      <div className="wrapper">
-        <DatePicker />
-        <div>
-          <div className="description">Some text</div>
+        <div className="subtitle">
+        <DisplayText size="large">Stock Rules Exceptions</DisplayText>
         </div>
-      </div>
+        <DatePicker />
+        <div className="subtitle">
+        <DisplayText size="large">Cron settings</DisplayText>
+        </div>
+        <Cron />
     </div>
   </body>
 );

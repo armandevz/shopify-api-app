@@ -1,9 +1,8 @@
 import React from "react";
 import { axios } from "../config/utils/axios";
-import styles from '../styles/Form.module.css'
 
 import enTranslations from '@shopify/polaris/locales/en.json';
-import {AppProvider, Button, FormLayout, TextField} from '@shopify/polaris';
+import {AppProvider, Button, DataTable, FormLayout, TextField} from '@shopify/polaris';
 
 class Form extends React.Component {
   
@@ -21,26 +20,25 @@ class Form extends React.Component {
     this.getData();
   }
 
-  handleChange = (e, index: number) => {
-    const { value, name } = e.target;
+  handleChange = (value, id, index: number) => {
     const { data } = this.state;
 
     if (!data) return;
 
     const newData = data.map((row, i) => {
       if (i === index) {
-        return { ...row, [name]: parseInt(value, 10) };
+        return { ...row, [id]: parseInt(value, 10) };
       }
-
       return row;
     });
+
+    // console.log(newData)
 
     this.setState({ data: newData });
   };
 
   addData = async (e) => {
     e.preventDefault();
-    // console.log(this.state.formData);
     await axios
       .put("/api/stockRules/", this.state.data)
       .catch((err) => {
@@ -84,9 +82,8 @@ class Form extends React.Component {
     }
 
     return (
-      <div className={styles.container}>
-        {/* <DatePickerUi /> */}
-        <form id="formData" onSubmit={this.addData}>
+      <>
+        <form onSubmit={this.addData}>
           <table>
             <tr>
               <th>Day of week</th> 
@@ -95,53 +92,51 @@ class Form extends React.Component {
               <th>Inventory quantity</th>
             </tr>
             {data.map((value, index) => {
+              // console.log(data)
               return (
                 <tr className="formRule" key={index}>
                   <td>
-                    <input
+                    <TextField
+                      label=''
                       name="day_of_week"
                       value={this.getDayOfWeekName(value.day_of_week)}
                       disabled
-                    ></input>
+                    />
                   </td>
                   <td>
-                    <input
-                      required
+                    <TextField
                       type="number"
                       name="weight"
-                      placeholder="1"
-                      onChange={(e) => this.handleChange(e, index)}
-                      value={value.weight}
+                      placeholder={value.weight}
+                      onChange={(newValue) => this.handleChange(newValue, 'weight', index)}
+                      value={this.state.data[index].weight}
                     />
                   </td>
                   <td>
-                    <input
-                      required
+                    <TextField
                       type="number"
                       name="price"
-                      placeholder="2.50"
-                      onChange={(e) => this.handleChange(e, index)}
-                      value={value.price}
+                      placeholder={value.price}
+                      onChange={(newValue) => this.handleChange(newValue, 'price', index)}
+                      value={this.state.data[index].price}
                     />
                   </td>
                   <td>
-                  <input
-                      // required
+                    <TextField
                       type="number"
                       name="inventory_quantity"
-                      placeholder="200"
-                      onChange={(e) => this.handleChange(e, index)}
-                      value={value.inventory_quantity}
+                      placeholder={value.inventory_quantity}
+                      onChange={(newValue) => this.handleChange(newValue, 'inventory_quantity', index)}
+                      value={this.state.data[index].inventory_quantity}
                     />
                   </td>
                 </tr>
               );
             })}
           </table>
-          {/* <Button primary type="submit">Save theme</Button> */}
-          <button className="polarisButton" type="submit">Add</button>
+          <Button primary submit={true}>Save</Button>
         </form>
-      </div>
+      </>
     );
   }
 }

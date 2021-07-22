@@ -1,8 +1,7 @@
 import React, { Component, useState } from 'react';
-import {DatePicker} from '@shopify/polaris';
+import {Button, DatePicker, Form, FormLayout, TextField} from '@shopify/polaris';
 import { axios } from '../config/utils/axios';
 import 'react-datepicker/dist/react-datepicker.css';
-import Navbar from '../components/Title';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
 
 const moment = require('moment');
@@ -10,7 +9,7 @@ const moment = require('moment');
 interface IState {
   selectedDate: {start: Date, end: Date};
   variants: IStockRuleExceptions[];
-  quantity: number;
+  quantity: string;
 }
 
 class Ui extends Component<{}, IState> {
@@ -44,15 +43,14 @@ class Ui extends Component<{}, IState> {
     });
   };
 
-  protected changeHandler = (e: any): void => {
-    this.setState({ [e.target.name]: e.target.value } as any);
+  protected changeHandler = (name: string, value: string): void => {
+    this.setState({ [name]: value } as any);
   };
 
   componentDidMount(): void {
     this.getVariants();
   }
 
-  //
   protected setSelectedDate(selectedDate): void {
     this.setState({ selectedDate });
   }
@@ -64,10 +62,6 @@ class Ui extends Component<{}, IState> {
     return (
       <div>
         <DatePicker
-          // selected={this.state.selectedDate}
-          // onChange={(date) => this.setSelectedDate(date)}
-          // minDate={limitedDays}
-          // inline
           month={1}
           year={2021}
           onChange={(date) => 
@@ -90,26 +84,30 @@ class Ui extends Component<{}, IState> {
     if (selectedVariant) {
       variantQuantity = selectedVariant.inventory_quantity;
     }
+    console.log(quantity, variantQuantity)
 
     return (
       <>
-        <form onSubmit={this.postVariant}>
-          <p>
-            Quantity on {pickedDate}
-            is: <b>{variantQuantity}</b>
-          </p>
-
-          <label htmlFor='name'>Quantity: </label>
-          <input
-            id='name'
+        <Form onSubmit={this.postVariant}>
+          <FormLayout>
+          <TextField
+            id='quantity'
+            label='Quantity:'
+            placeholder='200'
             name='quantity'
-            type='text'
-            value={quantity}
-            onChange={this.changeHandler}
-            required
+            type='number'
+            value={quantity || variantQuantity?.toString()}
+            onChange={(value, name)=>this.changeHandler(name, value)}
+            
+            helpText={
+              <span>
+                Enter quantity
+              </span>
+            }
           />
-          <input type='submit' value='Submit' />
-        </form>
+          <Button primary submit>Submit</Button>
+          </FormLayout>
+        </Form>
         {this.state.variants.map((variants) => (
           <div key={variants.id}>
             {/* <p>Date: {variants.date} || Stock: {variants.inventory_quantity}</p> */}
