@@ -1,7 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useCallback, useState } from 'react';
 import {Button, DatePicker, Form, FormLayout, TextField} from '@shopify/polaris';
 import { axios } from '../config/utils/axios';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
+import { months } from 'moment';
 
 const moment = require('moment');
 
@@ -61,13 +62,13 @@ class Ui extends Component<{}, IState> {
     return (
       <div>
         <DatePicker
-          month={1}
+          month={6}
           year={2021}
           weekStartsOn={1}
           onChange={(date) => 
           this.setSelectedDate(date)}
-          onMonthChange={() => {
-          }}
+          onMonthChange={console.log}
+          // onMonthChange={(month, year) => setDate({month, year})}
           selected={this.state.selectedDate}
         />
       </div>
@@ -76,7 +77,7 @@ class Ui extends Component<{}, IState> {
 
   protected renderInventoryQuantity(): React.ReactNode {
     const { selectedDate, variants, quantity } = this.state;
-
+    console
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
     const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null;
 
@@ -129,3 +130,7 @@ class Ui extends Component<{}, IState> {
 }
 
 export default Ui;
+
+function setDate(arg0: { month: number; year: number; }): void {
+  throw new Error('Function not implemented.');
+}
