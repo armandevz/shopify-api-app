@@ -110,7 +110,7 @@ class Form extends React.Component {
                       type="number"
                       name="weight"
                       placeholder={value.weight}
-                      onChange={(newValue) => this.handleChange}
+                      onChange={(newValue) => this.handleChange(newValue, 'weight', index)}
                       value={this.state.data[index].weight}
                     />
                   </td>
