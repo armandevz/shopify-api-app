@@ -20,7 +20,8 @@ class Form extends React.Component {
     this.getData();
   }
 
-  handleChange = (value, id, index: number) => {
+  handleChange = (value: string, id: string, index: number) => {
+    // console.log(value)
     const { data } = this.state;
 
     if (!data) return;
@@ -105,15 +106,17 @@ class Form extends React.Component {
                   </td>
                   <td>
                     <TextField
+                      label=''
                       type="number"
                       name="weight"
                       placeholder={value.weight}
-                      onChange={(newValue) => this.handleChange(newValue, 'weight', index)}
+                      onChange={(newValue) => this.handleChange}
                       value={this.state.data[index].weight}
                     />
                   </td>
                   <td>
                     <TextField
+                      label=''
                       type="number"
                       name="price"
                       placeholder={value.price}
@@ -123,6 +126,7 @@ class Form extends React.Component {
                   </td>
                   <td>
                     <TextField
+                      label=''
                       type="number"
                       name="inventory_quantity"
                       placeholder={value.inventory_quantity}

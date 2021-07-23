@@ -1,6 +1,6 @@
 import Title from '../components/Title';
 import DatePicker from '../components/DatePicker';
-import Form from './form';
+import Form from '../components/Form';
 import Head from 'next/head'
 import React from 'react';
 import { DisplayText } from '@shopify/polaris';

@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import {Button, DatePicker, Form, FormLayout, TextField} from '@shopify/polaris';
 import { axios } from '../config/utils/axios';
-import 'react-datepicker/dist/react-datepicker.css';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
 
 const moment = require('moment');
@@ -64,6 +63,7 @@ class Ui extends Component<{}, IState> {
         <DatePicker
           month={1}
           year={2021}
+          weekStartsOn={1}
           onChange={(date) => 
           this.setSelectedDate(date)}
           onMonthChange={() => {
