@@ -1,4 +1,3 @@
-require('dotenv').config({ path: '../../.env' });
 import moment from 'moment';
 import Shopify from 'shopify-api-node';
 import { CONFIG } from '../../config/config';
@@ -6,16 +5,24 @@ import StockRules from '../StockRules';
 import StockRuleExceptions from '../StockRulesExceptions';
 import BaseController from '../BaseController';
 
+require('dotenv').config({ path: '../../.env' });
+
 export default class Variants extends BaseController {
   shopify = null;
+
   productId = null;
+
   stockRules = null;
+
   currentDate = null;
+
   stockRulesExceptions = null;
 
   // Variant variables
   variantPrice = null;
+
   variantWeight = null;
+
   variantQuantity = null;
 
   constructor(productId) {
@@ -58,13 +65,21 @@ export default class Variants extends BaseController {
       this.variantQuantity = stockRules.inventory_quantity;
     }
 
+
+    const yesterdaysDate = moment(this.currentDate.date).subtract(1, 'days');
+
+    const skuFormatDate = moment(yesterdaysDate).format('[BC-]MM-DD-YYYY');
+
+    // this part should be used for proper variant title
+    // const skuFormatDateTitle = moment(yesterdaysDate).format('DD-MM-YYYY');
+
     try {
       const params = {
-        "sku": this.currentDate,
-        "option1": "Back copy variant " + Math.floor(Math.random() * 600),
-        "price": this.variantPrice,
-        "weight": this.variantWeight
-      }
+        sku: skuFormatDate,
+        option1: `Back Copy: ${Math.floor(Math.random() * 600)}`,
+        price: this.variantPrice,
+        weight: this.variantWeight,
+      };
 
       await this.shopify.productVariant.create(this.productId, params);
 
@@ -75,17 +90,15 @@ export default class Variants extends BaseController {
 
       const allLocationList = await this.shopify.location.list();
 
-      const requestedLocation = await allLocationList.find((location) => {
-        return location.address1 === CONFIG.variantLocation;
-      });
+      const requestedLocation = await allLocationList.find((location) => location.address1 === CONFIG.variantLocation);
 
       const requestedLocationId = requestedLocation.id;
 
       const params2 = {
-        "location_id": requestedLocationId,
-        "inventory_item_id": lastVariantInventoryId,
-        "available": this.variantQuantity
-      }
+        location_id: requestedLocationId,
+        inventory_item_id: lastVariantInventoryId,
+        available: this.variantQuantity,
+      };
       const inventoryLevel = await this.shopify.inventoryLevel.set(params2);
       console.log('Product variant created');
     } catch (e) {
