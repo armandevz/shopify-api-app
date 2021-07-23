@@ -28,7 +28,7 @@ class Form extends React.Component {
 
     const newData = data.map((row, i) => {
       if (i === index) {
-        return { ...row, [id]: parseInt(value, 10) };
+        return { ...row, [id]: value };
       }
       return row;
     });
@@ -138,7 +138,9 @@ class Form extends React.Component {
               );
             })}
           </table>
+          <div className="space">
           <Button primary submit={true}>Save</Button>
+          </div>
         </form>
       </>
     );

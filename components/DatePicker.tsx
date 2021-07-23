@@ -91,6 +91,7 @@ class Ui extends Component<{}, IState> {
         <Form onSubmit={this.postVariant}>
           <FormLayout>
           <TextField
+            requiredIndicator
             id='quantity'
             label='Quantity:'
             placeholder='200'

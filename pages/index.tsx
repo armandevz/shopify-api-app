@@ -22,10 +22,12 @@ const Index = () => (
       <DisplayText size="large">Stock Rules</DisplayText>
       </div>
         <Form />
+        <div className="stockRulesExceptions">
         <div className="subtitle">
         <DisplayText size="large">Stock Rules Exceptions</DisplayText>
         </div>
         <DatePicker />
+        </div>
         <div className="subtitle">
         <DisplayText size="large">Cron settings</DisplayText>
         </div>

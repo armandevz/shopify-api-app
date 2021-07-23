@@ -25,6 +25,10 @@ form {
   padding-bottom: 80px;
 }
 
+.space {
+  padding-top: 17px;
+}
+
 th {
   font-size: 16px;
   padding-bottom: 10px;
@@ -32,6 +36,10 @@ th {
 
 #formData {
   padding-bottom: 50px;
+}
+
+.stockRulesExceptions {
+  max-width: 500px;
 }
 
 .description {
@@ -57,4 +65,8 @@ h2 {
 
 .Polaris-FormLayout {
   padding-top: 30px;
+}
+
+.Polaris-Choice {
+  padding-bottom: 50px;
 }
