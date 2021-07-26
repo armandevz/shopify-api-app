@@ -15,7 +15,7 @@ class Form extends React.Component {
 
     if (response && response.data) this.setState({ data: response.data });
   };  
-
+  
   componentDidMount() {
     this.getData();
   }
