@@ -1,8 +1,7 @@
 import { IStockRuleExceptions } from '../interfaces/stockRules';
 import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockRules';
 
-export default class StockRulesExceptions {
-  // Function must be checked. Changes has been aplied
+export default class StockRulesExceptions { // extend BaseController
   async getStockRulesExceptions(
     date: Date
   ): Promise<IStockRuleExceptions | null> {
@@ -14,6 +13,8 @@ export default class StockRulesExceptions {
     } catch (e) {
       console.log('Variants :: getStockRulesExceptions :: error', e);
       throw new Error(e);
+
+      // use this.logError
     }
   }
 
@@ -21,6 +22,8 @@ export default class StockRulesExceptions {
     try {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
+
+      //todo use the same structure as in StockRules.getAllStockRules
     } catch (e) {
       console.log(
         'StockRulesExceptions :: getAllStockRulesExceptions :: error',
@@ -40,6 +43,7 @@ export default class StockRulesExceptions {
         .fetch({
           require: false,
         });
+
       // This part to update data
       if (!existingData) {
         const model = await StockRuleExceptionsModel.forge();

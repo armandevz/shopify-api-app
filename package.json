@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "next build",
-    "start": "next build && next start",
+    "start": "next build && next start & npm run cron",
     "dev": "next dev",
     "cron": "ts-node cron/index.ts",
     "db-migrate": "db-migrate --migrations-dir config/_database/migrations --config config/_database/config/database.json"

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Checkbox } from "@shopify/polaris";
 
-
 const Cron = () => {
 
             const [checked, setChecked] = useState(false);
@@ -17,4 +16,3 @@ const Cron = () => {
           }
 
 export default Cron;
-

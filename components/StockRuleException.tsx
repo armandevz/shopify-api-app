@@ -2,8 +2,7 @@ import React, { Component, useCallback, useState } from 'react';
 import { Button, DatePicker, Form, FormLayout, TextField } from '@shopify/polaris';
 import { axios } from '../config/utils/axios';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
-
-const moment = require('moment');
+import moment from 'moment';
 
 interface IState {
   selectedDate: { start: Date, end: Date };
@@ -15,7 +14,7 @@ interface IState {
 
 const date = new Date();
 
-class Ui extends Component<{}, IState> {
+class StockRuleException extends Component<{}, IState> {
   state: IState = {
     ...this.state,
     selectedDate: { start: new Date(), end: new Date() },
@@ -41,10 +40,10 @@ class Ui extends Component<{}, IState> {
       inventory_quantity: this.state.quantity,
     };
 
-    console.log(postData);
+    console.log(postData); //todo remove
 
     await axios.post('/api/stockRulesExceptions', postData).catch((err) => {
-      console.log('Post error is: ', err);
+      console.log('Post error is: ', err); //todo rephrase 
     });
   };
 
@@ -52,7 +51,7 @@ class Ui extends Component<{}, IState> {
     this.setState({ [name]: value } as any);
   };
 
-  componentDidMount(): void {
+  async componentDidMount(): Promise<void> {
     this.getVariants();
   }
 
@@ -60,12 +59,11 @@ class Ui extends Component<{}, IState> {
     this.setState({ selectedDate });
   }
 
-  handleMonthChange = (month, year) => {
+  handleMonthChange = (month, year): void => {
     this.setState({ month, year })
   };
 
   protected renderDatePicker(): React.ReactNode {
-    const date = new Date();
     const { month, year } = this.state;
 
     return (
@@ -74,8 +72,7 @@ class Ui extends Component<{}, IState> {
           month={month}
           year={year}
           weekStartsOn={1}
-          onChange={(date) =>
-            this.setSelectedDate(date)}
+          onChange={(selectedDate) => this.setSelectedDate(selectedDate)}
           onMonthChange={this.handleMonthChange}
           selected={this.state.selectedDate}
         />
@@ -85,15 +82,13 @@ class Ui extends Component<{}, IState> {
 
   protected renderInventoryQuantity(): React.ReactNode {
     const { selectedDate, variants, quantity } = this.state;
-    console
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
-    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null;
+    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null; //todo check types
 
     let variantQuantity;
     if (selectedVariant) {
       variantQuantity = selectedVariant.inventory_quantity;
     }
-    console.log(quantity, variantQuantity)
 
     return (
       <>
@@ -117,11 +112,6 @@ class Ui extends Component<{}, IState> {
             <Button primary submit>Submit</Button>
           </FormLayout>
         </Form>
-        {this.state.variants.map((variants) => (
-          <div key={variants.id}>
-            {/* <p>Date: {variants.date} || Stock: {variants.inventory_quantity}</p> */}
-          </div>
-        ))}
       </>
     );
   }
@@ -136,8 +126,4 @@ class Ui extends Component<{}, IState> {
   }
 }
 
-export default Ui;
-
-function setDate(arg0: { month: number; year: number; }): void {
-  throw new Error('Function not implemented.');
-}
+export default StockRuleException;

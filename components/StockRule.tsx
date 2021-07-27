@@ -1,27 +1,24 @@
 import React from "react";
 import { axios } from "../config/utils/axios";
+import { Button, TextField } from '@shopify/polaris';
 
-import enTranslations from '@shopify/polaris/locales/en.json';
-import {AppProvider, Button, DataTable, FormLayout, TextField} from '@shopify/polaris';
+class StockRule extends React.Component {
 
-class Form extends React.Component {
-  
   state = { data: null };
 
-  getData = async (): Promise<void> => {
+  protected getData = async (): Promise<void> => {
     const response = await axios
       .get("/api/stockRules/")
       .catch((err) => console.log("Error:", err));
 
     if (response && response.data) this.setState({ data: response.data });
-  };  
-  
-  componentDidMount() {
+  };
+
+  async componentDidMount(): Promise<void> {
     this.getData();
   }
 
-  handleChange = (value: string, id: string, index: number) => {
-    // console.log(value)
+  public handleChange = (value: string, id: string, index: number) => {
     const { data } = this.state;
 
     if (!data) return;
@@ -32,8 +29,6 @@ class Form extends React.Component {
       }
       return row;
     });
-
-    // console.log(newData)
 
     this.setState({ data: newData });
   };
@@ -55,27 +50,27 @@ class Form extends React.Component {
     }
   }
 
-  getDayOfWeekName(number: number): string {
+  protected getDayOfWeekName(number: number): string {
     switch (number) {
       case 1:
-        default:
+      default:
         return 'Monday';
       case 2:
         return 'Tuesday';
       case 3:
         return 'Wednesday';
-      case 4: 
+      case 4:
         return 'Thursday';
       case 5:
         return 'Friday';
-      case 6: 
+      case 6:
         return 'Saturday';
       case 7:
-        return 'Sunday';        
+        return 'Sunday';
     }
   }
 
-  render(): React.ReactNode {
+  public render(): React.ReactNode {
     const { data } = this.state;
 
     if (!data) {
@@ -87,13 +82,12 @@ class Form extends React.Component {
         <form onSubmit={this.addData}>
           <table>
             <tr>
-              <th>Day of week</th> 
+              <th>Day of week</th>
               <th>Weight</th>
               <th>Price</th>
               <th>Inventory quantity</th>
             </tr>
             {data.map((value, index) => {
-              // console.log(data)
               return (
                 <tr className="formRule" key={index}>
                   <td>
@@ -139,7 +133,7 @@ class Form extends React.Component {
             })}
           </table>
           <div className="space">
-          <Button primary submit={true}>Save</Button>
+            <Button primary submit={true}>Save</Button>
           </div>
         </form>
       </>
@@ -147,4 +141,4 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+export default StockRule;

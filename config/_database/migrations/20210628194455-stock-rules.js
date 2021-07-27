@@ -4,6 +4,7 @@ exports.up = function (db, callback) {
     date: 'date',
     inventory_quantity: 'int',
   }, callback);
+
   db.createTable('stock_rules', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     day_of_week: 'smallint',
@@ -11,14 +12,16 @@ exports.up = function (db, callback) {
     price: 'decimal',
     inventory_quantity: 'int',
   }, callback);
-  db.createTable('cron_rule', {
+
+  db.createTable('config', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    state: 'int',
+    key: 'varchar',
+    value: 'varchar'
   });
 };
 
 exports.down = function (db, callback) {
-  db.dropTable('cron_rule');
+  db.dropTable('config');
   db.dropTable('stock_rules_exceptions');
   db.dropTable('stock_rules', callback);
 };

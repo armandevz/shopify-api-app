@@ -10,10 +10,12 @@ export default class StockRules extends BaseController {
     } catch (e) {
       console.log('Variants :: getStockRules :: error', e);
       throw new Error(e);
+
+      //todo use this.logError()
     }
   }
 
-  async getAllStockRules():  Promise<IStockRule[]> {
+  async getAllStockRules(): Promise<IStockRule[]> {
     try {
       const model = await new StockRuleModel().fetchAll({require: false});
       return model ? model.toJSON() : null;
@@ -24,18 +26,18 @@ export default class StockRules extends BaseController {
   }
 
   //  This part of script is to save data to StockRules table
-  async saveStockRules(data: IStockRule[]): Promise<boolean> {
+  async saveStockRules(data: IStockRule[]) {
     StockRuleModel.where('day_of_week', '!=', 0).destroy();
 
     await Promise.all(data.map(async row => {
       try {
         const model = await StockRuleModel.forge();
         await model.save(row, { method: 'insert' });
+        return true;
       } catch (e) {
         console.log(`Failed to save data: ${e}`);
       }
     }));
-    return true;
   }
 
   //  This part of script is to delete data from StockRules table

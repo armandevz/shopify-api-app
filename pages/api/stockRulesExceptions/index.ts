@@ -20,7 +20,6 @@ export default async (req, res) => {
           date,
           inventory_quantity,
         };
-        // eslint-disable-next-line max-len
         const stockRulesExceptions = await new StockRulesExceptions().saveStockRulesExceptions(data);
         res.status(200).json(stockRulesExceptions);
       } catch (error) {

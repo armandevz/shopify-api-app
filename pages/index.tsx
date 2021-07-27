@@ -1,6 +1,5 @@
-import Title from '../components/Title';
-import DatePicker from '../components/DatePicker';
-import Form from '../components/Form';
+import DatePicker from '../components/StockRuleException';
+import Form from '../components/StockRule';
 import Head from 'next/head'
 import React from 'react';
 import { DisplayText } from '@shopify/polaris';
@@ -16,7 +15,7 @@ const Index = () => (
         />
       </Head>
       <div className="title">
-        <Title />
+      <DisplayText size="extraLarge">Back Copy Setting Page</DisplayText>
       </div>
       <div className="subtitle">
       <DisplayText size="large">Stock Rules</DisplayText>
