@@ -1,7 +1,8 @@
 import { IStockRuleExceptions } from '../interfaces/stockRules';
 import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockRules';
+import BaseController from './BaseController';
 
-export default class StockRulesExceptions { // extend BaseController
+export default class StockRulesExceptions extends BaseController {
   async getStockRulesExceptions(
     date: Date
   ): Promise<IStockRuleExceptions | null> {

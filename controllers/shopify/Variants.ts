@@ -1,11 +1,11 @@
-import moment from 'moment';
-import Shopify from 'shopify-api-node';
-import { CONFIG } from '../../config/config';
-import StockRules from '../StockRules';
-import StockRuleExceptions from '../StockRulesExceptions';
-import BaseController from '../BaseController';
+import moment from "moment";
+import Shopify from "shopify-api-node";
+import { CONFIG } from "../../config/config";
+import StockRules from "../StockRules";
+import StockRuleExceptions from "../StockRulesExceptions";
+import BaseController from "../BaseController";
 
-require('dotenv').config({ path: '../../.env' });
+require("dotenv").config({ path: "../../.env" });
 
 export default class Variants extends BaseController {
   shopify = null;
@@ -45,15 +45,22 @@ export default class Variants extends BaseController {
       const products = await this.shopify.productVariant.list(this.productId);
       return products[0];
     } catch (e) {
-      this.logError(e, 'Variants', 'getFirstVariantId()');
+      this.logError(e, "Variants", "getFirstVariantId()");
     }
   }
 
   // The method create new variant
   async createVariant() {
-    const currentDateFormat = moment(this.currentDate.date).format('YYYY-MM-DD');
-    const stockRules = await this.stockRules.getStockRules(this.currentDate.getDay());
-    const stockRulesExceptions = await this.stockRulesExceptions.getStockRulesExceptions(currentDateFormat);
+    const currentDateFormat = moment(this.currentDate.date).format(
+      "YYYY-MM-DD"
+    );
+    const stockRules = await this.stockRules.getStockRules(
+      this.currentDate.getDay()
+    );
+    const stockRulesExceptions =
+      await this.stockRulesExceptions.getStockRulesExceptions(
+        currentDateFormat
+      );
 
     if (stockRulesExceptions) {
       this.variantPrice = stockRulesExceptions.price;
@@ -65,13 +72,10 @@ export default class Variants extends BaseController {
       this.variantQuantity = stockRules.inventory_quantity;
     }
 
-    const yesterdaysDate = moment(this.currentDate.date).subtract(1, 'days');
-
-    const skuFormatDate = moment(yesterdaysDate).format('[BC-]MM-DD-YYYY');
+    const yesterdaysDate = moment(this.currentDate.date).subtract(1, "days");
+    const skuFormatDate = moment(yesterdaysDate).format("[BC-]MM-DD-YYYY");
 
     // this part should be used for proper variant title
-    // const skuFormatDateTitle = moment(yesterdaysDate).format('DD-MM-YYYY');
-
     try {
       const params = {
         sku: skuFormatDate,
@@ -83,13 +87,17 @@ export default class Variants extends BaseController {
       await this.shopify.productVariant.create(this.productId, params);
 
       // This part of code creats product variant quantity, default is 200
-      const productVariants = await this.shopify.productVariant.list(this.productId);
+      const productVariants = await this.shopify.productVariant.list(
+        this.productId
+      );
       const lastProductVariant = productVariants[productVariants.length - 1];
       const lastVariantInventoryId = lastProductVariant.inventory_item_id;
 
       const allLocationList = await this.shopify.location.list();
 
-      const requestedLocation = await allLocationList.find((location) => location.address1 === CONFIG.variantLocation);
+      const requestedLocation = await allLocationList.find(
+        (location) => location.address1 === CONFIG.variantLocation
+      );
 
       const requestedLocationId = requestedLocation.id;
 
@@ -99,9 +107,9 @@ export default class Variants extends BaseController {
         available: this.variantQuantity,
       };
       const inventoryLevel = await this.shopify.inventoryLevel.set(params2);
-      console.log('Product variant created');
+      console.log("Product variant created");
     } catch (e) {
-      this.logError(e, 'Variants', 'createVariant()');
+      this.logError(e, "Variants", "createVariant()");
     }
   }
 
@@ -110,7 +118,7 @@ export default class Variants extends BaseController {
     try {
       await this.shopify.productVariant.delete(this.productId, variantId);
     } catch (e) {
-      this.logError(e, 'Variants', 'deleteVariant()');
+      this.logError(e, "Variants", "deleteVariant()");
     }
   }
 
@@ -119,9 +127,9 @@ export default class Variants extends BaseController {
     try {
       const lastVariantId = await this.getFirstVariantId();
       await this.deleteVariant(lastVariantId.id);
-      console.log('The product variant deleted');
+      console.log("The product variant deleted");
     } catch (e) {
-      this.logError(e, 'Variants', 'deleteFirstVariant()');
+      this.logError(e, "Variants", "deleteFirstVariant()");
     }
   }
 

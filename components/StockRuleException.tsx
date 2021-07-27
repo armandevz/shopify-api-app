@@ -40,10 +40,8 @@ class StockRuleException extends Component<{}, IState> {
       inventory_quantity: this.state.quantity,
     };
 
-    console.log(postData); //todo remove
-
     await axios.post('/api/stockRulesExceptions', postData).catch((err) => {
-      console.log('Post error is: ', err); //todo rephrase 
+      console.log('Quantity error: ', err);
     });
   };
 
@@ -86,6 +84,7 @@ class StockRuleException extends Component<{}, IState> {
     const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null; //todo check types
 
     let variantQuantity;
+
     if (selectedVariant) {
       variantQuantity = selectedVariant.inventory_quantity;
     }

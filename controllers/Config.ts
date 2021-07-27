@@ -17,11 +17,8 @@ export default class Config extends BaseController {
     }
   }
 
-  async save(
-    data: IConfig
-  ): Promise<IConfig> {
+  async save(data: IConfig): Promise<IConfig> {
     try {
-      // const existingData = await this.getStockRulesExceptions(data.date);
       const existingData = await new ConfigModel()
         .where({ key: data.key })
         .fetch({
@@ -40,5 +37,4 @@ export default class Config extends BaseController {
       console.log(`Failed to save data: ${e}`);
     }
   }
-
 }
