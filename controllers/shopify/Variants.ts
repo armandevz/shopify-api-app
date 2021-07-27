@@ -65,9 +65,10 @@ export default class Variants extends BaseController {
       this.variantQuantity = stockRules.inventory_quantity;
     }
 
-    const yesterdaysDate = moment(this.currentDate.date).subtract(1, 'days');
+    // This part planning to use if client wants to create a variant for day back
+    // const yesterdaysDate = moment(this.currentDate.date).subtract(1, 'days');
 
-    const skuFormatDate = moment(yesterdaysDate).format('[BC-]MM-DD-YYYY');
+    const skuFormatDate = moment(this.currentDate.date).format('[BC-]MM-DD-YYYY');
 
     // this part should be used for proper variant title
     // const skuFormatDateTitle = moment(yesterdaysDate).format('DD-MM-YYYY');
@@ -91,14 +92,12 @@ export default class Variants extends BaseController {
 
       const requestedLocation = await allLocationList.find((location) => location.address1 === CONFIG.variantLocation);
 
-      const requestedLocationId = requestedLocation.id;
-
       const params2 = {
-        location_id: requestedLocationId,
+        location_id: requestedLocation.id,
         inventory_item_id: lastVariantInventoryId,
         available: this.variantQuantity,
       };
-      const inventoryLevel = await this.shopify.inventoryLevel.set(params2);
+      await this.shopify.inventoryLevel.set(params2);
       console.log('Product variant created');
     } catch (e) {
       this.logError(e, 'Variants', 'createVariant()');

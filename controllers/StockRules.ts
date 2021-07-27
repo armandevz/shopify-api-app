@@ -5,19 +5,19 @@ import BaseController from './BaseController';
 export default class StockRules extends BaseController {
   async getStockRules(dayOfWeek: DayNumbers): Promise<IStockRule> {
     try {
-      const model = await new StockRuleModel().where({day_of_week: dayOfWeek}).fetch({require: false});
+      const model = await new StockRuleModel().where({ day_of_week: dayOfWeek }).fetch({ require: false });
       return model ? model.toJSON() : null;
     } catch (e) {
       console.log('Variants :: getStockRules :: error', e);
       throw new Error(e);
 
-      //todo use this.logError()
+      // todo use this.logError()
     }
   }
 
   async getAllStockRules(): Promise<IStockRule[]> {
     try {
-      const model = await new StockRuleModel().fetchAll({require: false});
+      const model = await new StockRuleModel().fetchAll({ require: false });
       return model ? model.toJSON() : null;
     } catch (e) {
       console.log('StockRules :: getAllStockRules :: error', e);
@@ -29,7 +29,7 @@ export default class StockRules extends BaseController {
   async saveStockRules(data: IStockRule[]) {
     StockRuleModel.where('day_of_week', '!=', 0).destroy();
 
-    await Promise.all(data.map(async row => {
+    await Promise.all(data.map(async (row) => {
       try {
         const model = await StockRuleModel.forge();
         await model.save(row, { method: 'insert' });

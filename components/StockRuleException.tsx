@@ -1,8 +1,10 @@
 import React, { Component, useCallback, useState } from 'react';
-import { Button, DatePicker, Form, FormLayout, TextField } from '@shopify/polaris';
+import {
+  Button, DatePicker, Form, FormLayout, TextField,
+} from '@shopify/polaris';
+import moment from 'moment';
 import { axios } from '../config/utils/axios';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
-import moment from 'moment';
 
 interface IState {
   selectedDate: { start: Date, end: Date };
@@ -21,7 +23,7 @@ class StockRuleException extends Component<{}, IState> {
     variants: [],
     quantity: null,
     month: date.getMonth(),
-    year: date.getFullYear()
+    year: date.getFullYear(),
   };
 
   protected getVariants = async (): Promise<void> => {
@@ -40,10 +42,10 @@ class StockRuleException extends Component<{}, IState> {
       inventory_quantity: this.state.quantity,
     };
 
-    console.log(postData); //todo remove
+    console.log(postData); // todo remove
 
     await axios.post('/api/stockRulesExceptions', postData).catch((err) => {
-      console.log('Post error is: ', err); //todo rephrase 
+      console.log('Post error is: ', err); // todo rephrase
     });
   };
 
@@ -60,7 +62,7 @@ class StockRuleException extends Component<{}, IState> {
   }
 
   handleMonthChange = (month, year): void => {
-    this.setState({ month, year })
+    this.setState({ month, year });
   };
 
   protected renderDatePicker(): React.ReactNode {
@@ -83,7 +85,8 @@ class StockRuleException extends Component<{}, IState> {
   protected renderInventoryQuantity(): React.ReactNode {
     const { selectedDate, variants, quantity } = this.state;
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
-    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null; //todo check types
+    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null;
+    // todo check types
 
     let variantQuantity;
     if (selectedVariant) {

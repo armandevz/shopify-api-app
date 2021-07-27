@@ -1,9 +1,10 @@
 import { IStockRuleExceptions } from '../interfaces/stockRules';
 import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockRules';
+import BaseController from './BaseController';
 
-export default class StockRulesExceptions { // extend BaseController
+export default class StockRulesExceptions extends BaseController {
   async getStockRulesExceptions(
-    date: Date
+    date: Date,
   ): Promise<IStockRuleExceptions | null> {
     try {
       const model = await new StockRuleExceptionsModel().where({ date }).fetch({
@@ -23,18 +24,18 @@ export default class StockRulesExceptions { // extend BaseController
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
 
-      //todo use the same structure as in StockRules.getAllStockRules
+      // todo use the same structure as in StockRules.getAllStockRules
     } catch (e) {
       console.log(
         'StockRulesExceptions :: getAllStockRulesExceptions :: error',
-        e
+        e,
       );
       throw new Error(e);
     }
   }
 
   async saveStockRulesExceptions(
-    data: IStockRuleExceptions
+    data: IStockRuleExceptions,
   ): Promise<IStockRuleExceptions> {
     try {
       // const existingData = await this.getStockRulesExceptions(data.date);
@@ -48,10 +49,9 @@ export default class StockRulesExceptions { // extend BaseController
       if (!existingData) {
         const model = await StockRuleExceptionsModel.forge();
         return model.save(data, { method: 'insert' });
-      } else {
-        existingData.save(data, { method: 'update' });
-        return null;
       }
+      existingData.save(data, { method: 'update' });
+      return null;
     } catch (e) {
       console.log(`Failed to save data: ${e}`);
     }
