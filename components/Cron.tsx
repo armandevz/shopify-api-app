@@ -1,11 +1,27 @@
 import React, { useCallback, useState } from "react";
 import { Checkbox } from "@shopify/polaris";
+import { axios } from "../config/utils/axios";
 
 const Cron = () => {
 
             const [checked, setChecked] = useState(false);
-            const handleChange = useCallback((newChecked) => setChecked(newChecked), []);
-          
+            const handleChange = (newChecked) => {setChecked(newChecked);
+              cron()
+            };
+
+            let cron = function() {
+              axios
+              .put("/api/cronRule/", {
+                key: 'cronEnabled',
+                value: checked
+              })
+              .catch((err) => {
+                console.log("Error: ", err);
+              });
+
+              console.log('check', checked)
+            }
+            
             return (
               <Checkbox
                 label="Basic checkbox"
