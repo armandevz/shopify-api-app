@@ -8,7 +8,7 @@ try {
     const getRulesData = await new Config().get("cronEnabled");
     console.log("Get Rules Data", getRulesData);
 
-    if (getRulesData.value == "0") {
+    if (getRulesData.value == "1") {
       await new Variants(CONFIG.productId).deleteCreateVariant();
       console.log(`The cron task completed at: ${new Date().toLocaleString()}`);
     }

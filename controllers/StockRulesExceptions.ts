@@ -4,7 +4,8 @@ import BaseController from './BaseController';
 
 export default class StockRulesExceptions extends BaseController {
   static logError: any;
-  async getStockRulesExceptions(
+
+  public async getStockRulesExceptions(
     date: Date
   ): Promise<IStockRuleExceptions | null> {
     try {
@@ -17,7 +18,7 @@ export default class StockRulesExceptions extends BaseController {
     }
   }
 
-  async getAllStockRulesExceptions(): Promise<IStockRuleExceptions | null> {
+  public async getAllStockRulesExceptions(): Promise<IStockRuleExceptions | null> {
     try {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
@@ -26,7 +27,7 @@ export default class StockRulesExceptions extends BaseController {
     }
   }
 
-  async saveStockRulesExceptions(
+  public async saveStockRulesExceptions(
     data: IStockRuleExceptions
   ): Promise<IStockRuleExceptions> {
     try {
@@ -46,15 +47,6 @@ export default class StockRulesExceptions extends BaseController {
       }
     } catch (e) {
       this.logError(e, 'StockRulesExceptions', 'saveStockRulesExceptions')
-    }
-  }
-
-  static async deleteStockRulesExceptions(id): Promise<boolean> {
-    try {
-      await new StockRuleExceptionsModel({ id }).destroy();
-      return true;
-    } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'deleteStockRulesExceptions')
     }
   }
 }

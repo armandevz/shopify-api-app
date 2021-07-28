@@ -1,34 +1,49 @@
 import React, { useCallback, useState } from "react";
-import { Checkbox } from "@shopify/polaris";
+import { Button, Checkbox, Form } from "@shopify/polaris";
 import { axios } from "../config/utils/axios";
 
-const Cron = () => {
+export default class Cron extends React.Component {
+  state = { checked: false };
 
-            const [checked, setChecked] = useState(false);
-            const handleChange = (newChecked) => {setChecked(newChecked);
-              cron()
-            };
+  protected getData = async () => {
+    const response = await axios
+      .get("/api/cronRule/")
+      .catch((err) => console.log("Error:", err));
 
-            const cron = function() {
-              axios
-              .put("/api/cronRule/", {
-                key: 'cronEnabled',
-                value: checked
-              })
-              .catch((err) => {
-                console.log("Error: ", err);
-              });
+    if (response && response.data) this.setState({ checked: response.data });
+  };
 
-              console.log('check', checked)
-            }
-            
-            return (
-              <Checkbox
-                label="Basic checkbox"
-                checked={checked}
-                onChange={handleChange}
-              />
-            );
-          }
+  async componentDidMount() {
+    this.getData();
+  }
 
-export default Cron;
+  public handleChange = (value: boolean) => {
+    this.setState({ checked: value });
+  };
+
+  addData = async (e) => {
+    const { checked } = this.state;
+
+    e.preventDefault();
+
+    await axios
+      .put("/api/cronRule/", { key: 'cronEnabled', value: checked })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
+
+  render() {
+    const { checked } = this.state;
+    return (
+      <Form onSubmit={this.addData}>
+        <Checkbox
+          label="Basic checkbox"
+          checked={checked}
+          onChange={(value) => this.handleChange(value)}
+        />
+        <Button primary submit={true}>Save</Button>
+      </Form>
+    );
+  }
+}

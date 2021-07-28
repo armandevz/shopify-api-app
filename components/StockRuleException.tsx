@@ -49,7 +49,7 @@ class StockRuleException extends Component<{}, IState> {
     this.setState({ [name]: value } as any);
   };
 
-  async componentDidMount(): Promise<void> {
+  protected async componentDidMount(): Promise<void> {
     this.getVariants();
   }
 

@@ -3,7 +3,7 @@ import { Config as ConfigModel } from "../model/config";
 import BaseController from "./BaseController";
 
 export default class Config extends BaseController {
-  async get(key: string): Promise<IConfig> {
+  public async get(key: string): Promise<IConfig> {
     try {
       const model = await new ConfigModel()
         .where({ key })
@@ -14,7 +14,7 @@ export default class Config extends BaseController {
     }
   }
 
-  async save(data: IConfig): Promise<IConfig> {
+  public async save(data: IConfig): Promise<IConfig> {
     try {
       const existingData = await new ConfigModel()
         .where({ key: data.key })

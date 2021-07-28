@@ -6,8 +6,8 @@ export default async (req, res) => {
   switch (httpMethod) {
     case 'GET':
       try {
-        const getRulesData = await new Config().get();
-        res.status(200).json(getRulesData);
+        const getRulesData = await new Config().get('cronEnabled');
+        res.status(200).json(getRulesData.value);
       } catch (error) {}
       break;
     case 'POST':
