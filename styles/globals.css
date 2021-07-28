@@ -70,3 +70,8 @@ h2 {
 .Polaris-Choice {
   padding-bottom: 50px;
 }
+
+.cronButton {
+  display: flex;
+  margin-top: -24px;
+}

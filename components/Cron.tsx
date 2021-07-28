@@ -42,7 +42,9 @@ export default class Cron extends React.Component {
           checked={checked}
           onChange={(value) => this.handleChange(value)}
         />
+        <div className="cronButton">
         <Button primary submit={true}>Save</Button>
+        </div>
       </Form>
     );
   }

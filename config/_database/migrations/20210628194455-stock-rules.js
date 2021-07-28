@@ -18,10 +18,17 @@ exports.up = function (db, callback) {
     key: 'varchar',
     value: 'varchar'
   });
+
+  db.createTable('cronLog', {
+    id: { type: 'int', primaryKey: true, autoIncrement: true },
+    date: 'date',
+    description: 'varchar'
+  });
 };
 
 exports.down = function (db, callback) {
   db.dropTable('config');
   db.dropTable('stock_rules_exceptions');
   db.dropTable('stock_rules', callback);
+  db.dropTable('cronLog');
 };
