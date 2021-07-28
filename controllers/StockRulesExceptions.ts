@@ -3,6 +3,7 @@ import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockR
 import BaseController from './BaseController';
 
 export default class StockRulesExceptions extends BaseController {
+  static logError: any;
   async getStockRulesExceptions(
     date: Date
   ): Promise<IStockRuleExceptions | null> {
@@ -12,10 +13,7 @@ export default class StockRulesExceptions extends BaseController {
       });
       return model ? model.toJSON() : null;
     } catch (e) {
-      console.log('Variants :: getStockRulesExceptions :: error', e);
-      throw new Error(e);
-
-      // use this.logError
+      this.logError(e, StockRulesExceptions, this.getStockRulesExceptions)
     }
   }
 
@@ -23,14 +21,8 @@ export default class StockRulesExceptions extends BaseController {
     try {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
-
-      //todo use the same structure as in StockRules.getAllStockRules
     } catch (e) {
-      console.log(
-        'StockRulesExceptions :: getAllStockRulesExceptions :: error',
-        e
-      );
-      throw new Error(e);
+      this.logError(e, StockRulesExceptions, this.getAllStockRulesExceptions)
     }
   }
 
@@ -38,7 +30,6 @@ export default class StockRulesExceptions extends BaseController {
     data: IStockRuleExceptions
   ): Promise<IStockRuleExceptions> {
     try {
-      // const existingData = await this.getStockRulesExceptions(data.date);
       const existingData = await new StockRuleExceptionsModel()
         .where({ date: data.date })
         .fetch({
@@ -54,7 +45,7 @@ export default class StockRulesExceptions extends BaseController {
         return null;
       }
     } catch (e) {
-      console.log(`Failed to save data: ${e}`);
+      this.logError(e, StockRulesExceptions, this.saveStockRulesExceptions)
     }
   }
 
@@ -63,8 +54,7 @@ export default class StockRulesExceptions extends BaseController {
       await new StockRuleExceptionsModel({ id }).destroy();
       return true;
     } catch (e) {
-      console.log(`Failed to delete data: ${e}`);
-      throw new Error(e);
+      this.logError(e, StockRulesExceptions, this.deleteStockRulesExceptions)
     }
   }
 }

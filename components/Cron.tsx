@@ -9,7 +9,7 @@ const Cron = () => {
               cron()
             };
 
-            let cron = function() {
+            const cron = function() {
               axios
               .put("/api/cronRule/", {
                 key: 'cronEnabled',

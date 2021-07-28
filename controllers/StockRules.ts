@@ -3,15 +3,13 @@ import { StockRule as StockRuleModel } from '../model/stockRules';
 import BaseController from './BaseController';
 
 export default class StockRules extends BaseController {
+  static logError: any;
   async getStockRules(dayOfWeek: DayNumbers): Promise<IStockRule> {
     try {
       const model = await new StockRuleModel().where({day_of_week: dayOfWeek}).fetch({require: false});
       return model ? model.toJSON() : null;
     } catch (e) {
-      console.log('Variants :: getStockRules :: error', e);
-      throw new Error(e);
-
-      //todo use this.logError()
+      this.logError(e, StockRules, this.getStockRules)
     }
   }
 
@@ -20,8 +18,7 @@ export default class StockRules extends BaseController {
       const model = await new StockRuleModel().fetchAll({require: false});
       return model ? model.toJSON() : null;
     } catch (e) {
-      console.log('StockRules :: getAllStockRules :: error', e);
-      throw new Error(e);
+      this.logError(e, StockRules, this.getAllStockRules)
     }
   }
 
@@ -35,7 +32,7 @@ export default class StockRules extends BaseController {
         await model.save(row, { method: 'insert' });
         return true;
       } catch (e) {
-        console.log(`Failed to save data: ${e}`);
+        this.logError(e, StockRules, this.saveStockRules)
       }
     }));
   }
@@ -46,8 +43,7 @@ export default class StockRules extends BaseController {
       await new StockRuleModel({ id }).destroy();
       return true;
     } catch (e) {
-      console.log(`Failed to save data: ${e}`);
-      throw new Error(e);
+      this.logError(e, StockRules, this.deleteStockRules)
     }
   }
 }

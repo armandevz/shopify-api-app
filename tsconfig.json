@@ -15,10 +15,6 @@
     "jsx": "preserve"
   },
   "import/extensions": "never",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-, "components/Cron.tsx", "pages/_app.js"  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

@@ -10,10 +10,7 @@ export default class Config extends BaseController {
         .fetch({ require: false });
       return model ? model.toJSON() : null;
     } catch (e) {
-      console.log("Cron :: getCronRule :: error", e);
-      throw new Error(e);
-
-      //todo use this.logError()
+      this.logError(e, Config, this.get)
     }
   }
 
@@ -34,7 +31,7 @@ export default class Config extends BaseController {
         return null;
       }
     } catch (e) {
-      console.log(`Failed to save data: ${e}`);
+      this.logError(e, Config, this.save)
     }
   }
 }

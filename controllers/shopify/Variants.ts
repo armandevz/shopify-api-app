@@ -9,20 +9,14 @@ require("dotenv").config({ path: "../../.env" });
 
 export default class Variants extends BaseController {
   shopify = null;
-
   productId = null;
-
   stockRules = null;
-
   currentDate = null;
-
   stockRulesExceptions = null;
 
   // Variant variables
   variantPrice = null;
-
   variantWeight = null;
-
   variantQuantity = null;
 
   constructor(productId) {
@@ -92,15 +86,12 @@ export default class Variants extends BaseController {
       );
       const lastProductVariant = productVariants[productVariants.length - 1];
       const lastVariantInventoryId = lastProductVariant.inventory_item_id;
-
       const allLocationList = await this.shopify.location.list();
-
       const requestedLocation = await allLocationList.find(
         (location) => location.address1 === CONFIG.variantLocation
       );
 
       const requestedLocationId = requestedLocation.id;
-
       const params2 = {
         location_id: requestedLocationId,
         inventory_item_id: lastVariantInventoryId,
