@@ -1,5 +1,5 @@
 import { ICronLog } from "../interfaces/cronLog";
-import { CronLog as CronLogModel } from "../model/cronLog"; //!!!!!!!
+import { CronLog as CronLogModel } from "../model/cronLog";
 import BaseController from "./BaseController";
 
 export default class CronLog extends BaseController {
