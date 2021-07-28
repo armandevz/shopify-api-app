@@ -13,7 +13,7 @@ export default class StockRulesExceptions extends BaseController {
       });
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, StockRulesExceptions, this.getStockRulesExceptions)
+      this.logError(e, 'StockRulesExceptions', 'getStockRulesExceptions')
     }
   }
 
@@ -22,7 +22,7 @@ export default class StockRulesExceptions extends BaseController {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
     } catch (e) {
-      this.logError(e, StockRulesExceptions, this.getAllStockRulesExceptions)
+      this.logError(e, 'StockRulesExceptions', 'getAllStockRulesExceptions')
     }
   }
 
@@ -45,7 +45,7 @@ export default class StockRulesExceptions extends BaseController {
         return null;
       }
     } catch (e) {
-      this.logError(e, StockRulesExceptions, this.saveStockRulesExceptions)
+      this.logError(e, 'StockRulesExceptions', 'saveStockRulesExceptions')
     }
   }
 
@@ -54,7 +54,7 @@ export default class StockRulesExceptions extends BaseController {
       await new StockRuleExceptionsModel({ id }).destroy();
       return true;
     } catch (e) {
-      this.logError(e, StockRulesExceptions, this.deleteStockRulesExceptions)
+      this.logError(e, 'StockRulesExceptions', 'deleteStockRulesExceptions')
     }
   }
 }

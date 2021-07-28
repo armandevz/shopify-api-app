@@ -9,7 +9,7 @@ export default class StockRules extends BaseController {
       const model = await new StockRuleModel().where({day_of_week: dayOfWeek}).fetch({require: false});
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, StockRules, this.getStockRules)
+      this.logError(e, 'StockRules', 'getStockRules')
     }
   }
 
@@ -18,7 +18,7 @@ export default class StockRules extends BaseController {
       const model = await new StockRuleModel().fetchAll({require: false});
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, StockRules, this.getAllStockRules)
+      this.logError(e, 'StockRules', 'getAllStockRules')
     }
   }
 
@@ -32,7 +32,7 @@ export default class StockRules extends BaseController {
         await model.save(row, { method: 'insert' });
         return true;
       } catch (e) {
-        this.logError(e, StockRules, this.saveStockRules)
+        this.logError(e, 'StockRules', 'saveStockRules')
       }
     }));
   }
@@ -43,7 +43,7 @@ export default class StockRules extends BaseController {
       await new StockRuleModel({ id }).destroy();
       return true;
     } catch (e) {
-      this.logError(e, StockRules, this.deleteStockRules)
+      this.logError(e, 'StockRules', 'deleteStockRules')
     }
   }
 }
