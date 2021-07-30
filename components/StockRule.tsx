@@ -14,7 +14,7 @@ class StockRule extends React.Component {
     if (response && response.data) this.setState({ data: response.data });
   };
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount(): void {
     this.getData();
   }
 

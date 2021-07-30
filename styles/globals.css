@@ -68,10 +68,17 @@ h2 {
 }
 
 .Polaris-Choice {
-  padding-bottom: 50px;
+  padding-bottom: 20px;
 }
 
-.cronButton {
+.Polaris-Page {
+  padding: 0;
+  margin: 0;
+}
+
+.Polaris-ButtonGroup {
   display: flex;
-  margin-top: -24px;
+  justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }

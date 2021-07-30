@@ -21,7 +21,7 @@ exports.up = function (db, callback) {
 
   db.createTable('cronLog', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    date: 'date',
+    date: {defaultValue: 'CURRENT_TIMESTAMP', type: 'datetime'},
     description: 'varchar'
   });
 };

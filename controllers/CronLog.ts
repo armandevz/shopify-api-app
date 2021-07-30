@@ -3,24 +3,24 @@ import { CronLog as CronLogModel } from "../model/cronLog";
 import BaseController from "./BaseController";
 
 export default class CronLog extends BaseController {
-  public async save(data: ICronLog): Promise<ICronLog> {
+  public async save(data: string) {
     try {
-      const existingData = await new CronLogModel()
-        .where({ date: Date })
-        .fetch({
-          require: false,
-        });
-
-      // This part to update data
-      if (!existingData) {
-        const model = await CronLogModel.forge();
-        return model.save(data, { method: "insert" });
-      } else {
-        existingData.save(data, { method: "update" });
-        return null;
-      }
+      const model = await CronLogModel.forge();
+      return model.save({ description: data }, { method: "insert" });
     } catch (e) {
-      this.logError(e, "CronLog", "save");
+      console.log(e, "CronLog", "save");
+    }
+  }
+
+  public async getAll(): Promise<ICronLog | null> {
+    try {
+      const model = await new CronLogModel().fetchAll({
+        require: false,
+      });
+      console.log(model);
+      return model ? model.toJSON() : null;
+    } catch (e) {
+      this.logError(e, "CronLog", "getAll");
     }
   }
 }

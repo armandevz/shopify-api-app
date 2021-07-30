@@ -2,8 +2,9 @@ import DatePicker from '../components/StockRuleException';
 import Form from '../components/StockRule';
 import Head from 'next/head'
 import React from 'react';
-import { DisplayText } from '@shopify/polaris';
+import { DisplayText, Pagination } from '@shopify/polaris';
 import Cron from '../components/Cron';
+import CronLogTable from '../components/CronLogTable';
 
 const Index = () => (
   <body>
@@ -15,22 +16,33 @@ const Index = () => (
         />
       </Head>
       <div className="title">
-      <DisplayText size="extraLarge">Back Copy Setting Page</DisplayText>
+        <DisplayText size="extraLarge">Back Copy Setting Page</DisplayText>
       </div>
       <div className="subtitle">
-      <DisplayText size="large">Stock Rules</DisplayText>
+        <DisplayText size="large">Stock Rules</DisplayText>
       </div>
-        <Form />
-        <div className="stockRulesExceptions">
+      <Form />
+      <div className="stockRulesExceptions">
         <div className="subtitle">
-        <DisplayText size="large">Stock Rules Exceptions</DisplayText>
+          <DisplayText size="large">Stock Rules Exceptions</DisplayText>
         </div>
         <DatePicker />
-        </div>
-        <div className="subtitle">
+      </div>
+      <div className="subtitle">
         <DisplayText size="large">Cron settings</DisplayText>
-        </div>
-        <Cron />
+      </div>
+      <Cron />
+      <CronLogTable />
+      <Pagination
+        hasPrevious
+        onPrevious={() => {
+          console.log('Previous');
+        }}
+        hasNext
+        onNext={() => {
+          console.log('Next');
+        }}
+      />
     </div>
   </body>
 );
