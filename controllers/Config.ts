@@ -1,16 +1,16 @@
-import { IConfig } from "../interfaces/config";
-import { Config as ConfigModel } from "../model/config";
-import BaseController from "./BaseController";
+import { IConfig } from '../interfaces/config';
+import { Config as ConfigModel } from '../model/config';
+import BaseController from './BaseController';
 
 export default class Config extends BaseController {
-  public async get(key: string): Promise<IConfig> {
+  public async get(key: string, defaultValue: string): Promise<IConfig> {
     try {
       const model = await new ConfigModel()
         .where({ key })
         .fetch({ require: false });
-      return model ? model.toJSON() : null;
+      return model ? model.toJSON() : { key, value: defaultValue };
     } catch (e) {
-      this.logError(e, 'Config', 'get')
+      this.logError(e, 'Config', 'get');
     }
   }
 
@@ -25,13 +25,12 @@ export default class Config extends BaseController {
       // This part to update data
       if (!existingData) {
         const model = await ConfigModel.forge();
-        return model.save(data, { method: "insert" });
-      } else {
-        existingData.save(data, { method: "update" });
-        return null;
+        return model.save(data, { method: 'insert' });
       }
+      existingData.save(data, { method: 'update' });
+      return null;
     } catch (e) {
-      this.logError(e, 'Config', 'save')
+      this.logError(e, 'Config', 'save');
     }
   }
 }

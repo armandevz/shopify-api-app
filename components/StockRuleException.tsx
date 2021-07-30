@@ -1,8 +1,10 @@
 import React, { Component, useCallback, useState } from 'react';
-import { Button, DatePicker, Form, FormLayout, TextField } from '@shopify/polaris';
+import {
+  Button, DatePicker, Form, FormLayout, TextField,
+} from '@shopify/polaris';
+import moment from 'moment';
 import { axios } from '../config/utils/axios';
 import { IStockRuleExceptions } from '../interfaces/stockRules';
-import moment from 'moment';
 
 interface IState {
   selectedDate: { start: Date, end: Date };
@@ -21,7 +23,7 @@ class StockRuleException extends Component<{}, IState> {
     variants: [],
     quantity: null,
     month: date.getMonth(),
-    year: date.getFullYear()
+    year: date.getFullYear(),
   };
 
   protected getVariants = async (): Promise<void> => {
@@ -49,7 +51,7 @@ class StockRuleException extends Component<{}, IState> {
     this.setState({ [name]: value } as any);
   };
 
-  protected async componentDidMount(): Promise<void> {
+  componentDidMount(): void {
     this.getVariants();
   }
 
@@ -58,7 +60,7 @@ class StockRuleException extends Component<{}, IState> {
   }
 
   handleMonthChange = (month, year): void => {
-    this.setState({ month, year })
+    this.setState({ month, year });
   };
 
   protected renderDatePicker(): React.ReactNode {
@@ -81,7 +83,8 @@ class StockRuleException extends Component<{}, IState> {
   protected renderInventoryQuantity(): React.ReactNode {
     const { selectedDate, variants, quantity } = this.state;
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
-    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null; //todo check types
+    // eslint-disable-next-line max-len
+    const selectedVariant = variants.find((variant) => moment(variant.date).format('YYYY-MM-DD') === pickedDate) || null;
 
     let variantQuantity;
 

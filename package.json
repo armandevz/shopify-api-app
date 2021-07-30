@@ -9,13 +9,14 @@
     "start": "next build && next start & npm run cron",
     "dev": "next dev",
     "cron": "ts-node cron/index.ts",
-    "db-migrate": "db-migrate --migrations-dir config/_database/migrations --config config/_database/config/database.json"
+    "db-migrate": "db-migrate --migrations-dir config/_database/migrations --config config/_database/config/database.json",
+    "server": "node config/server.js"
   },
   "keywords": [],
   "author": "Arman Fayziev",
   "license": "ISC",
   "dependencies": {
-    "@shopify/koa-shopify-auth": "^4.1.3",
+    "@shopify/koa-shopify-auth": "^4.1.4",
     "@shopify/polaris": "^6.6.0",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",

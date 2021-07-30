@@ -6,7 +6,7 @@ export default class StockRulesExceptions extends BaseController {
   static logError: any;
 
   public async getStockRulesExceptions(
-    date: Date
+    date: Date,
   ): Promise<IStockRuleExceptions | null> {
     try {
       const model = await new StockRuleExceptionsModel().where({ date }).fetch({
@@ -14,7 +14,7 @@ export default class StockRulesExceptions extends BaseController {
       });
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'getStockRulesExceptions')
+      this.logError(e, 'StockRulesExceptions', 'getStockRulesExceptions');
     }
   }
 
@@ -23,12 +23,12 @@ export default class StockRulesExceptions extends BaseController {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'getAllStockRulesExceptions')
+      this.logError(e, 'StockRulesExceptions', 'getAllStockRulesExceptions');
     }
   }
 
   public async saveStockRulesExceptions(
-    data: IStockRuleExceptions
+    data: IStockRuleExceptions,
   ): Promise<IStockRuleExceptions> {
     try {
       const existingData = await new StockRuleExceptionsModel()
@@ -41,12 +41,11 @@ export default class StockRulesExceptions extends BaseController {
       if (!existingData) {
         const model = await StockRuleExceptionsModel.forge();
         return model.save(data, { method: 'insert' });
-      } else {
-        existingData.save(data, { method: 'update' });
-        return null;
       }
+      existingData.save(data, { method: 'update' });
+      return null;
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'saveStockRulesExceptions')
+      this.logError(e, 'StockRulesExceptions', 'saveStockRulesExceptions');
     }
   }
 }
