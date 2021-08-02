@@ -21,7 +21,7 @@ const Index = () => (
       <Layout>
         <Layout.AnnotatedSection
           title="Stock Rule"
-          description="You can change weight, price, inventory quantity for the item. Changes are possible for any day of the week."
+          description="It’s possible to change weight, price, inventory quantity for Back Copy. Changes can be done on every day of the week."
         >
           <Card sectioned>
             <Form />
@@ -32,7 +32,7 @@ const Index = () => (
       <Layout>
         <Layout.AnnotatedSection
           title="Stock Rule Exception"
-          description="You can change quantity choosing the day and the month."
+          description="Changing the quantity is possible by choosing the day and the month."
         >
           <Card sectioned>
             <DatePicker />
@@ -43,7 +43,7 @@ const Index = () => (
       <Layout>
         <Layout.AnnotatedSection
           title="Cron settings"
-          description="If checkbox is on, Cron starts working. If checkbox is off, Cron stops working."
+          description="By active checkbox the Cron starts working. If the checkbox is switched off, the Cron stops working."
         >
           <Card sectioned>
             <Cron />
@@ -54,30 +54,23 @@ const Index = () => (
       <Layout>
         <Layout.AnnotatedSection
           title="Cron Log"
-          description="Here are shown the last 30 reports on Cron program: date, time and description. 
-          There are two options in the description: successes if Cron is working and false if some problems appear."
+          description="Here are shown the last 20 reports on Cron program. False is displayed in the description in case of error."
         >
           <Card sectioned>
             <CronLogTable />
           </Card>
         </Layout.AnnotatedSection>
       </Layout>
-      <div style={{ height: '100px' }}>
-        <Pagination
-          hasPrevious
-          previousKeys={[74]}
-          previousTooltip="j"
-          onPrevious={() => {
-            console.log('Previous');
-          }}
-          hasNext
-          nextKeys={[75]}
-          nextTooltip="k"
-          onNext={() => {
-            console.log('Next');
-          }}
-        />
-      </div>
+      <Pagination
+        hasPrevious
+        onPrevious={() => {
+          console.log('Previous');
+        }}
+        hasNext
+        onNext={() => {
+          console.log('Next');
+        }}
+      />
     </div>
   </body>
 );
