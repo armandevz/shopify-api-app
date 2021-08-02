@@ -26,7 +26,7 @@ export default class CronLogTable extends React.Component {
 
         return (
             <>
-                <Page title="Cron Log" >
+                <Page>
                     <Card>
                         <DataTable
                             columnContentTypes={[

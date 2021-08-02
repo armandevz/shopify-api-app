@@ -20,7 +20,8 @@ export default class CronLog extends BaseController {
       }).fetchPage({
         require: false,
         pageSize: 30,
-        currentPage: 1
+        currentPage: 1,
+        page: 2
       });
       return model ? model.toJSON() : null;
     } catch (e) {

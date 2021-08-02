@@ -2,7 +2,7 @@ import DatePicker from '../components/StockRuleException';
 import Form from '../components/StockRule';
 import Head from 'next/head'
 import React from 'react';
-import { DisplayText, Pagination } from '@shopify/polaris';
+import { Banner, Card, DisplayText, Layout, Pagination } from '@shopify/polaris';
 import Cron from '../components/Cron';
 import CronLogTable from '../components/CronLogTable';
 
@@ -18,31 +18,66 @@ const Index = () => (
       <div className="title">
         <DisplayText size="extraLarge">Back Copy Setting Page</DisplayText>
       </div>
-      <div className="subtitle">
-        <DisplayText size="large">Stock Rules</DisplayText>
+      <Layout>
+        <Layout.AnnotatedSection
+          title="Stock Rule"
+          description="You can change weight, price, inventory quantity for the item. Changes are possible for any day of the week."
+        >
+          <Card sectioned>
+            <Form />
+          </Card>
+        </Layout.AnnotatedSection>
+      </Layout>
+      <hr></hr>
+      <Layout>
+        <Layout.AnnotatedSection
+          title="Stock Rule Exception"
+          description="You can change quantity choosing the day and the month."
+        >
+          <Card sectioned>
+            <DatePicker />
+          </Card>
+        </Layout.AnnotatedSection>
+      </Layout>
+      <hr></hr>
+      <Layout>
+        <Layout.AnnotatedSection
+          title="Cron settings"
+          description="If checkbox is on, Cron starts working. If checkbox is off, Cron stops working."
+        >
+          <Card sectioned>
+            <Cron />
+          </Card>
+        </Layout.AnnotatedSection>
+      </Layout>
+      <hr></hr>
+      <Layout>
+        <Layout.AnnotatedSection
+          title="Cron Log"
+          description="Here are shown the last 30 reports on Cron program: date, time and description. 
+          There are two options in the description: successes if Cron is working and false if some problems appear."
+        >
+          <Card sectioned>
+            <CronLogTable />
+          </Card>
+        </Layout.AnnotatedSection>
+      </Layout>
+      <div style={{ height: '100px' }}>
+        <Pagination
+          hasPrevious
+          previousKeys={[74]}
+          previousTooltip="j"
+          onPrevious={() => {
+            console.log('Previous');
+          }}
+          hasNext
+          nextKeys={[75]}
+          nextTooltip="k"
+          onNext={() => {
+            console.log('Next');
+          }}
+        />
       </div>
-      <Form />
-      <div className="stockRulesExceptions">
-        <div className="subtitle">
-          <DisplayText size="large">Stock Rules Exceptions</DisplayText>
-        </div>
-        <DatePicker />
-      </div>
-      <div className="subtitle">
-        <DisplayText size="large">Cron settings</DisplayText>
-      </div>
-      <Cron />
-      <CronLogTable />
-      <Pagination
-        hasPrevious
-        onPrevious={() => {
-          console.log('Previous');
-        }}
-        hasNext
-        onNext={() => {
-          console.log('Next');
-        }}
-      />
     </div>
   </body>
 );
