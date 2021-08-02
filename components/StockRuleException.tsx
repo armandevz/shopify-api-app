@@ -49,7 +49,7 @@ class StockRuleException extends Component<{}, IState> {
     this.setState({ [name]: value } as any);
   };
 
-  protected async componentDidMount(): Promise<void> {
+  componentDidMount(): void {
     this.getVariants();
   }
 
@@ -81,8 +81,8 @@ class StockRuleException extends Component<{}, IState> {
   protected renderInventoryQuantity(): React.ReactNode {
     const { selectedDate, variants, quantity } = this.state;
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
-    const selectedVariant = variants.find((variants) => variants.date === pickedDate) || null; //todo check types
-
+    const selectedVariant = variants.find((variant) => moment(variant.date).format('YYYY-MM-DD') === pickedDate) || null;
+    
     let variantQuantity;
 
     if (selectedVariant) {

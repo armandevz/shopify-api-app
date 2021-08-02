@@ -10,7 +10,7 @@ export default class CronLogTable extends React.Component {
         this.getData();
       }
 
-    public getData = async (): Promise<void> => {
+    protected getData = async (): Promise<void> => {
       const response = await axios
         .get("/api/cronLog/")
         .catch((err) => console.log("Error:", err));

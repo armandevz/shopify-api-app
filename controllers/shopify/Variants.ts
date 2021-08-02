@@ -66,8 +66,9 @@ export default class Variants extends BaseController {
       this.variantQuantity = stockRules.inventory_quantity;
     }
 
-    const yesterdaysDate = moment(this.currentDate.date).subtract(1, "days");
-    const skuFormatDate = moment(yesterdaysDate).format("[BC-]MM-DD-YYYY");
+    const skuFormatDate = moment(this.currentDate.date).format(
+      "[BC-]MM-DD-YYYY"
+    );
 
     // this part should be used for proper variant title
     try {
