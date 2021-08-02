@@ -8,8 +8,8 @@ exports.up = function (db, callback) {
   db.createTable('stock_rules', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     day_of_week: 'smallint',
-    weight: 'int',
-    price: 'decimal',
+    weight: 'float',
+    price: 'float',
     inventory_quantity: 'int',
   }, callback);
 
