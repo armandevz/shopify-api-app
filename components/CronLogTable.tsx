@@ -19,17 +19,10 @@ export default class CronLogTable extends React.Component {
     };
 
     public cronLogTable() {
-        // const { data } = this.state;
-        // if (!data) {
-        //   return null;
-        // }
-
-        // {data.map((value, index) => {
-        const rows = [
-            ['1', 'Test 1'],
-            ['2', 'Test 2'],
-        ];
-        // })};
+        const { data } = this.state;
+        if (!data) {
+          return null;
+        }
 
         return (
             <>
@@ -44,7 +37,7 @@ export default class CronLogTable extends React.Component {
                                 'Date',
                                 'Description',
                             ]}
-                            rows={rows}
+                            rows={data.map(row=> ([row.date, row.description]))}
                         />
                     </Card>
                 </Page>

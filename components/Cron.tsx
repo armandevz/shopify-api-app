@@ -38,7 +38,7 @@ export default class Cron extends React.Component {
     return (
       <Form onSubmit={this.addData}>
         <Checkbox
-          label="Basic checkbox"
+          label="Cron running"
           checked={checked}
           onChange={(value) => this.handleChange(value)}
         />

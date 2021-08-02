@@ -14,10 +14,14 @@ export default class CronLog extends BaseController {
 
   public async getAll(): Promise<ICronLog | null> {
     try {
-      const model = await new CronLogModel().fetchAll({
+      const model = await new CronLogModel()
+      .query(qb => {
+        qb.orderBy('id', 'desc');
+      }).fetchPage({
         require: false,
+        pageSize: 30,
+        currentPage: 1
       });
-      console.log(model);
       return model ? model.toJSON() : null;
     } catch (e) {
       this.logError(e, "CronLog", "getAll");
