@@ -14,6 +14,6 @@ schedule.scheduleJob("*/04 * * * * *", async function () {
     }
     await new CronLog().save("successes");
   } catch (e) {
-    await new CronLog().save("fail");
+    await new CronLog().save(e.message);
   }
 });

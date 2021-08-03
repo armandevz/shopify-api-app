@@ -6,9 +6,8 @@ export default async (req, res) => {
   switch (httpMethod) {
     case 'GET':
       try {
-        const getCronLog = await new CronLog().getAll();
-        console.log(getCronLog);
-        res.status(200).json(getCronLog);
+        const cronLog = await new CronLog().getAll(req.query.id);
+        res.status(200).json(cronLog);
       } catch (error) {}
       break;
     case 'POST':

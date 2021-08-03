@@ -1,4 +1,5 @@
 import { ICronLog } from "../interfaces/cronLog";
+import { IDBPaginatedResponse } from "../interfaces/pagination";
 import { CronLog as CronLogModel } from "../model/cronLog";
 import BaseController from "./BaseController";
 
@@ -12,7 +13,7 @@ export default class CronLog extends BaseController {
     }
   }
 
-  public async getAll(): Promise<ICronLog | null> {
+  public async getAll(currentPage: number = 1): Promise<IDBPaginatedResponse<ICronLog>> {
     try {
       const model = await new CronLogModel()
         .query((qb) => {
@@ -20,11 +21,10 @@ export default class CronLog extends BaseController {
         })
         .fetchPage({
           require: false,
-          pageSize: 20,
-          currentPage: 1,
-          page: 2,
+          pageSize: 10,
+          page: currentPage,
         });
-      return model ? model.toJSON() : null;
+        return this.paginatedResponse<ICronLog>(model);
     } catch (e) {
       this.logError(e, "CronLog", "getAll");
     }
