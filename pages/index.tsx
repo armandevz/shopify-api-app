@@ -6,8 +6,6 @@ import { Banner, Card, DisplayText, Layout, Pagination } from '@shopify/polaris'
 import Cron from '../components/Cron';
 import CronLogTable from '../components/CronLogTable';
 
-let cronLogPage = 1;
-
 const Index = () => (
   <body>
     <div className="container">
@@ -59,16 +57,7 @@ const Index = () => (
           description="Here are shown the last 20 reports on Cron program. False is displayed in the description in case of error."
         >
           <Card sectioned>
-            <CronLogTable cronLogPage={cronLogPage} onPrevious={function(
-            ){
-              cronLogPage--
-              console.log(cronLogPage);
-            }}  
-            onNext={function(
-              ){
-                cronLogPage++
-                console.log(cronLogPage);
-              }}/>
+            <CronLogTable />
           </Card>
         </Layout.AnnotatedSection>
       </Layout>

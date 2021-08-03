@@ -108,7 +108,7 @@ class StockRuleException extends Component<{}, IState> {
                 </span>
               }
             />
-            <Button primary submit>Submit</Button>
+            <Button primary submit>Save</Button>
           </FormLayout>
         </Form>
       </>
