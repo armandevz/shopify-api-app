@@ -43,7 +43,7 @@ export default class Cron extends React.Component {
           onChange={(value) => this.handleChange(value)}
         />
         <div className="cronButton">
-        <Button primary submit={true}>Save</Button>
+          <Button primary submit={true}>Save</Button>
         </div>
       </Form>
     );

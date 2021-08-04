@@ -1,5 +1,5 @@
 export interface ICronLog {
-    id: number;
-    date: any;
-    value: string;
-  }
+  id: number;
+  date: any;
+  value: string;
+}

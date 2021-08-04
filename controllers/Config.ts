@@ -10,7 +10,7 @@ export default class Config extends BaseController {
         .fetch({ require: false });
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, 'Config', 'get')
+      this.logError(e, "Config", "get");
     }
   }
 
@@ -31,7 +31,7 @@ export default class Config extends BaseController {
         return null;
       }
     } catch (e) {
-      this.logError(e, 'Config', 'save')
+      this.logError(e, "Config", "save");
     }
   }
 }

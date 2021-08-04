@@ -1,6 +1,6 @@
-import { IStockRuleExceptions } from '../interfaces/stockRules';
-import { StockRuleExceptions as StockRuleExceptionsModel } from '../model/stockRules';
-import BaseController from './BaseController';
+import { IStockRuleExceptions } from "../interfaces/stockRules";
+import { StockRuleExceptions as StockRuleExceptionsModel } from "../model/stockRules";
+import BaseController from "./BaseController";
 
 export default class StockRulesExceptions extends BaseController {
   static logError: any;
@@ -14,7 +14,7 @@ export default class StockRulesExceptions extends BaseController {
       });
       return model ? model.toJSON() : null;
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'getStockRulesExceptions')
+      this.logError(e, "StockRulesExceptions", "getStockRulesExceptions");
     }
   }
 
@@ -23,7 +23,7 @@ export default class StockRulesExceptions extends BaseController {
       const model = await new StockRuleExceptionsModel().fetchAll();
       return model.toJSON();
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'getAllStockRulesExceptions')
+      this.logError(e, "StockRulesExceptions", "getAllStockRulesExceptions");
     }
   }
 
@@ -40,13 +40,13 @@ export default class StockRulesExceptions extends BaseController {
       // This part to update data
       if (!existingData) {
         const model = await StockRuleExceptionsModel.forge();
-        return model.save(data, { method: 'insert' });
+        return model.save(data, { method: "insert" });
       } else {
-        existingData.save(data, { method: 'update' });
+        existingData.save(data, { method: "update" });
         return null;
       }
     } catch (e) {
-      this.logError(e, 'StockRulesExceptions', 'saveStockRulesExceptions')
+      this.logError(e, "StockRulesExceptions", "saveStockRulesExceptions");
     }
   }
 }

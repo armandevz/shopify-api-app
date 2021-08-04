@@ -82,7 +82,7 @@ class StockRuleException extends Component<{}, IState> {
     const { selectedDate, variants, quantity } = this.state;
     const pickedDate = moment(selectedDate.start).format('YYYY-MM-DD');
     const selectedVariant = variants.find((variant) => moment(variant.date).format('YYYY-MM-DD') === pickedDate) || null;
-    
+
     let variantQuantity;
 
     if (selectedVariant) {

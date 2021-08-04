@@ -13,7 +13,9 @@ export default class CronLog extends BaseController {
     }
   }
 
-  public async getAll(currentPage: number = 1): Promise<IDBPaginatedResponse<ICronLog>> {
+  public async getAll(
+    currentPage: number = 1
+  ): Promise<IDBPaginatedResponse<ICronLog>> {
     try {
       const model = await new CronLogModel()
         .query((qb) => {
@@ -24,7 +26,7 @@ export default class CronLog extends BaseController {
           pageSize: 10,
           page: currentPage,
         });
-        return this.paginatedResponse<ICronLog>(model);
+      return this.paginatedResponse<ICronLog>(model);
     } catch (e) {
       this.logError(e, "CronLog", "getAll");
     }
